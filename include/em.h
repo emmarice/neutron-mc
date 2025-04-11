@@ -22,7 +22,7 @@ public:
       -param: None
       -return: No return -- void
   	*/
-
+double getVelocity();
 	
 };
 
