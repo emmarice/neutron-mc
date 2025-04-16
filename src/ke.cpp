@@ -25,15 +25,27 @@ void materialManager::addMaterial(std::string a_matName,
                     std::vector<std::pair<std::string,std::string>> a_files)
 {
 
-  for(std::string fi:a_files)
+  for(auto fi:a_files)
   {
     addCX(a_matName,fi.first,fi.second);
-    m_matTypes[a_matName].pushback(fi.first);
+    m_matTypes[a_matName].push_back(fi.first);
+    m_mats.push_back(a_matName);
   }
 }
-std::string materialManager::matFinder(double x, double y)
+std::string materialManager::matFinder(double a_x, double a_y)
 {
-  return"idkPuOrSomething";
+  for(std::string mat : m_mats)
+  {
+    xLow=m_geo[mat].first.first;
+    xHigh=m_geo[mat].first.second;
+    yLow=m_geo[mat].second.first;
+    yHigh=m_geo[mat].second.second;
+    if(a_x>xLow && a_x<xHigh && a_y>yLow && a_y<yHigh)
+    {
+      return mat;
+    }
+  }
+  return "void"
 }
 double materialManager::getCX(std::string a_matName,std::string a_type
                         ,double a_En)
@@ -89,4 +101,11 @@ std::string materialManager::getReactionType(double a_eta,std::string a_matName,
       return ty;
     }
   }
+}
+void materialManager::addShape(std::string a_mat,double a_xLow, double a_yLow,
+                   double a_xHigh, double a_yHigh)
+{
+  std::pair<std::pair<double,double>.std::pair<double,double>> posPair=
+                                    {{a_xLow,a_xHigh},{a_yLow,a_yHigh}};
+  m_geo[a_mat].push_back(posPair);
 }
