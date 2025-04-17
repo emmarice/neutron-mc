@@ -43,5 +43,9 @@ class tallies
     double m_avEscape;
 
 }
-
+class reducedState
+{
+  public:
+    std::vector<tallies> m_reducedStates;
+}
 #endif
