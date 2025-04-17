@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include em.h
 // manages materials and getting crossection
 class materialManager
 {
@@ -17,6 +18,7 @@ class materialManager
     // map of material to pair of x bounds and y bounds
     std::map<std::string,std::pair<std::pair<double,double>,std::pair<double,double>>> m_geo
   public:
+    materialManager();
     // adds given CX from JANIS file
     void addCX(std::string a_matName,std::string a_CXType,
                 std::string a_fileName);
@@ -38,14 +40,30 @@ class materialManager
 // reduces state to tallies and saves them
 class tallies
 {
-  public:
+  private:
     double m_avEnergy;
     double m_avEscape;
+    double m_avFis;
+    double m_avCap;
+    double m_avSurvive;
+    int m_num;
+  public:
+    tallies(state a_state); 
+    double getAvEn();
+    double getEscape();
+    double getFis();
+    double getCap();
+    double getAlive();
+    int getNum();
 
 }
 class reducedState
 {
   public:
     std::vector<tallies> m_reducedStates;
+  public:
+    reducedState();
+    void addReduced(tallies a_tally);
+    std::vector<tallies> getTallies();
 }
 #endif

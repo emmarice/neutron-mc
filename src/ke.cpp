@@ -109,3 +109,78 @@ void materialManager::addShape(std::string a_mat,double a_xLow, double a_yLow,
                                     {{a_xLow,a_xHigh},{a_yLow,a_yHigh}};
   m_geo[a_mat].push_back(posPair);
 }
+
+tallies::tallies(state a_state)
+{
+  m_num=a_state.getNumParticles();
+  int escp=0;
+  int fis=0;
+  int cap=0;
+  double en=0;
+  int alive=0;
+  for(neutron nu : a_state.getParticles)
+  {
+    int death=nu.getDeath;
+    if(death>-1)
+    {
+      if(death==0)
+      {
+        escp+=1;
+      }
+      if(death==1)
+      {
+        cap+=1;
+      }
+      if(death==2)
+      {
+        fis+=1;
+      }
+    }
+    else
+    {
+      en+=nu.getE();
+      alive+=1;
+    }
+  }
+  m_avEnergy=en/alive;
+  m_avEscape=escp/m_num;
+  m_avFis=fis/m_num;
+  m_avCap=cap/m_num;
+  m_avSurvive=alive/m_num;
+}
+double tallies::getAvEn()
+{
+  return m_avEnergy
+}
+double tallies::getEscape()
+{
+  return m_avEscape
+}
+double tallies::getFis()
+{
+  return m_avFis
+}
+double tallies::getCap()
+{
+  return m_avCap
+}
+double tallies::getAlive()
+{
+  return m_avSurvive
+}
+int tallies::getNum()
+{
+  return m_num
+}
+reducedState::reducedState()
+{
+  // nothing to do here
+}
+void reducedState::addReduced(tallies a_tally)
+{
+  m_reducedStates.push_back(a_tally);
+}
+std::vector<tallies> reducedState::getTallies()
+{
+  return m_reducedStates;
+}

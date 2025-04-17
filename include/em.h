@@ -35,6 +35,7 @@ void setAngle(double a_angle);
 double getSteppedPos(double a_dist);
 void stepNewPos(double a_dist);
 void kill(int a_type);
+int getDeath();
 
 	
 };

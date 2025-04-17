@@ -80,6 +80,10 @@ void neutron::kill(a_type)
   m_isDead=true;
   m_DeathType=a_type;
 }
+int neutron::getDeath()
+{
+  return m_m_DeathType
+}
 state::state()
 {
   // nothing to do here
