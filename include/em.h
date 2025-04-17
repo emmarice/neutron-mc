@@ -54,6 +54,7 @@ public:
   	*/
 	std::vector<neutron> getParticles();
   int getNumParticles();
+  void addNeutron(neutron a_neut);
 };
 
 class geometry

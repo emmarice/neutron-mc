@@ -68,7 +68,7 @@ double neutron::getSteppedPos(double a_dist)
   double xn=m_x+std::cos(m_theta)*a_dist;
   double yn=m_y+std::sin(m_theta)*a_dist;
   std::pair<double,double>np={xn,yn};
-  return np
+  return np;
 }
 void neutron::stepNewPos(double a_dist)
 {
@@ -79,4 +79,20 @@ void neutron::kill(a_type)
 {
   m_isDead=true;
   m_DeathType=a_type;
+}
+state::state()
+{
+  // nothing to do here
+}
+std::vector<neutron> state::getParticles()
+{
+  return m_particles;
+}
+int state::getNumParticles()
+{
+  return m_particles.size();
+}
+void state::addNeutron(neutron a_neut)
+{
+  m_particles.push_back(a_neut);
 }
