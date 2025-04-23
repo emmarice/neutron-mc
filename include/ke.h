@@ -32,8 +32,12 @@ class materialManager
     double getCXTot(std::string a_matName,double a_En);
     // sample the distance to interaction
     double getDist(std::string a_matName,double a_En, double a_eta);
+    // returns reaction type given a random number, the material neutron is in
+    // and the energy of the neutron
     std::string getReactionType(double a_eta,std::string a_matName,
                                 double a_En);
+    // adds a rectangle to the model given corner points
+    // give the name of the material, bottom corner and top corner
     void addShape(std::string a_mat,double a_xLow, double a_yLow,
                    double a_xHigh, double a_yHigh);
 }
