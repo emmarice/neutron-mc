@@ -16,6 +16,7 @@ public:
 	double m_theta; //angle in radians
 	bool m_isDead;
   int m_DeathType; //0 escape, 1 capture, 2 fission
+  double m_weight;
 public:
 	neutron();
 	~neutron();
