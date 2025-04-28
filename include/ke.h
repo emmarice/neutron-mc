@@ -15,6 +15,7 @@ class materialManager
     std::map<std::string,vector<std::string>> m_matTypes;
     std::map<std::string,double> m_matDens;
     std::vector<std::string> m_mats;
+    std::map<std::string,double> m_nuBar;
     // map of material to pair of x bounds and y bounds
     std::map<std::string,std::pair<std::pair<double,double>,std::pair<double,double>>> m_geo
   public:
@@ -25,6 +26,10 @@ class materialManager
     //adds name of material with vector of reaction name and file name
     void addMaterial(std::string a_matName, double a_rho,
                     std::vector<std::pair<std::string,std::string>> a_files);
+    void addNu(std::a_matName,double a_nu);
+    // add number density or density calculated if A>0
+    // a rho either in mol/cm^3 or g/cm^3
+    void addDensity(std::string a_matName,double a_rho, int a_A=-100);
     std::string matFinder(double a_x, double a_y);
     // get CX at given energy in material
     double getCX(std::string a_matName,std::string a_type,double a_En);
@@ -36,6 +41,8 @@ class materialManager
     // and the energy of the neutron
     std::string getReactionType(double a_eta,std::string a_matName,
                                 double a_En);
+    int getFisN(std::string a_matName,
+                                                  double a_eta);
     // adds a rectangle to the model given corner points
     // give the name of the material, bottom corner and top corner
     void addShape(std::string a_mat,double a_xLow, double a_yLow,

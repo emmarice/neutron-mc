@@ -32,6 +32,21 @@ void materialManager::addMaterial(std::string a_matName,
     m_mats.push_back(a_matName);
   }
 }
+void materialManager::addNu(std::a_matName,double a_nu)
+{
+  m_nuBar[a_matName]=a_nu;
+}
+void materialManager::addDensity(std::string a_matName,double a_rho, double a_A)
+{
+  if a_A<0
+  {
+    m_matDens[a_matName]=a_rho;
+  }
+  else
+  {
+    m_matDens[a_matName]=a_rho/a_A;
+  }
+}
 std::string materialManager::matFinder(double a_x, double a_y)
 {
   for(std::string mat : m_mats)
@@ -76,7 +91,7 @@ double materialManager::getCX(std::string a_matName,std::string a_type
 }
 double materialManager::getCXTot(std::string a_matName,double a_En)
 {
-  totalCX=0;
+  double totalCX=0;
   for (std::string ty:m_matTypes[a_matName])
   {
     totalCX=totalCX+getCX(a_matName,ty.a_En);
@@ -101,6 +116,22 @@ std::string materialManager::getReactionType(double a_eta,std::string a_matName,
       return ty;
     }
   }
+}
+ int materialManager::getFisN(std::string a_matName,double a_eta)
+{
+  double nu=m_nuBar[a_matName];
+  int nuInt =int(nu);
+  int nF=0;
+  std::vector<double> es;
+  if(eta<=nu-nuInt)
+  {
+    nF=nuInt+1;
+  }
+  else
+  {
+    nF=nuInt;
+  }
+  return nF
 }
 void materialManager::addShape(std::string a_mat,double a_xLow, double a_yLow,
                    double a_xHigh, double a_yHigh)
@@ -169,7 +200,7 @@ double tallies::getAlive()
   return m_avSurvive
 }
 int tallies::getNum()
-{
+{x
   return m_num
 }
 reducedState::reducedState()
