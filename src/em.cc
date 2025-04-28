@@ -23,10 +23,7 @@ neutron::neutron(double a_en,double a_x,double a_y, double)
   m_isDead(false),
   m_DeathType(-100)
 }
-double neutron::getVelocity()
-{
-  return 7.0;
-}
+
 double neutron::getE()
 {
   return m_energy;
