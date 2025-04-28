@@ -25,7 +25,6 @@ public:
       -param: None
       -return: No return -- void
   	*/
-double getVelocity();
 double getE();
 void setE(double a_E);
 std::pair<double,double> getPos();
