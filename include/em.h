@@ -6,7 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cmath>
-#include <pair>
+#include <string>
+using std::pair;
+#include <utility>
 class neutron
 {
 public:
@@ -35,9 +37,9 @@ void setPos(double a_x,double a_y);
 void setPos(std::pair<double,double> a_pos);
 double getAngle();
 void setAngle(double a_angle);
-double getSteppedPos(double a_dist);
+std::pair<double,double> getSteppedPos(double a_dist);
 void stepNewPos(double a_dist);
-void kill(int a_type);
+void killN(int a_type);
 int getDeath();
 void setMat(std::string a_mat);
 void setCol(bool a_col);
