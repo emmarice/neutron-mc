@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <cmath>
 #include em.h
 // manages materials and getting crossection
 class materialManager
@@ -25,7 +26,7 @@ class materialManager
     void addCX(std::string a_matName,std::string a_CXType,
                 std::string a_fileName);
     //adds name of material with vector of reaction name and file name
-    void addMaterial(std::string a_matName, double a_rho,
+    void addMaterial(std::string a_matName,
                     std::vector<std::pair<std::string,std::string>> a_files);
     void addNu(std::a_matName,double a_nu);
     // add number density or density calculated if A>0
@@ -42,12 +43,13 @@ class materialManager
     // and the energy of the neutron
     std::string getReactionType(double a_eta,std::string a_matName,
                                 double a_En);
-    int getFisN(std::string a_matName,
-                                                  double a_eta);
+    std::pair<int,std::vector<double>> getFisInfo(std::string a_matName,
+                                              double a_eta, randomGen* a_rand);
     // adds a rectangle to the model given corner points
     // give the name of the material, bottom corner and top corner
     void addShape(std::string a_mat,double a_xLow, double a_yLow,
                    double a_xHigh, double a_yHigh);
+    void readShapeFromFile(std::string a_fileName);
 }
 // reduces state to tallies and saves them
 class tallies

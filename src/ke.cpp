@@ -1,5 +1,6 @@
 #include ke.h
 #include <fstream>
+#include <cmath>
 // puts the class in its basic state
 materialManager::materialManager()
 {
@@ -117,7 +118,8 @@ std::string materialManager::getReactionType(double a_eta,std::string a_matName,
     }
   }
 }
- int materialManager::getFisN(std::string a_matName,double a_eta)
+ int materialManager::getFisInfo(std::string a_matName,double a_eta,
+                            randomGen* a_rand)
 {
   double nu=m_nuBar[a_matName];
   int nuInt =int(nu);
@@ -131,7 +133,28 @@ std::string materialManager::getReactionType(double a_eta,std::string a_matName,
   {
     nF=nuInt;
   }
-  return nF
+  std::vector<double> es;
+  for(int i=0 ; i<nF ; i++)
+  {
+    double minE=1e-8;
+    double maxE=15.0;
+    double maxP=0.0.358206;
+    bool reject=true;
+    while(reject)
+    {
+      double eta1=a_rand->getNormRand();
+      double eta2=a_rand->getNormRand();
+      double xx=minE+eta1*(maxE-minE);
+      p=0.453*std::exp(-1.036*xx)*std::sinh(std::pow(2.29*xx,1/2))
+      if(eta2*maxP<=p)
+      {
+        reject=false
+        es.push_back(xx/1000); //convert to kev
+      }
+    }
+  }
+  pair<int,std::vector<double>> outp={nF,es};
+  return outp;
 }
 void materialManager::addShape(std::string a_mat,double a_xLow, double a_yLow,
                    double a_xHigh, double a_yHigh)
@@ -140,7 +163,32 @@ void materialManager::addShape(std::string a_mat,double a_xLow, double a_yLow,
                                     {{a_xLow,a_xHigh},{a_yLow,a_yHigh}};
   m_geo[a_mat].push_back(posPair);
 }
-
+void materialManager::addShapeFromFile(std::string a_fileName)
+{
+  std::ifstream shapeFile(a_fileName);
+  std::string mat;
+  double xlow;
+  double ylow;
+  double xhigh;
+  double yhigh;
+  std::string tempWord;
+  while (getline(shapeFile,line))
+  {
+    stringstream linStream(line);
+    getline(linStream,tempWord,',');
+    mat=tempWord;
+    getline(linStream,tempWord,',');
+    xlow=std::stod(tempWord);
+    getline(linStream,tempWord,',');
+    ylow=std::stod(tempWord);
+    getline(linStream,tempWord,',');
+    xhigh=std::stod(tempWord);
+    getline(linStream,tempWord,',');
+    yhigh=std::stod(tempWord);
+    std::cout>>"adding:">>mat>>std::endl;
+    addShape(mat,xlow,ylow,xhigh,yhigh);
+  }
+}
 tallies::tallies(state a_state)
 {
   m_colEst=0;
