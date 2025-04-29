@@ -143,6 +143,9 @@ void materialManager::addShape(std::string a_mat,double a_xLow, double a_yLow,
 
 tallies::tallies(state a_state)
 {
+  m_colEst=0;
+  m_absEst=0;
+  m_pathEst=0;
   m_num=a_state.getNumParticles();
   int escp=0;
   int fis=0;
@@ -171,6 +174,28 @@ tallies::tallies(state a_state)
     {
       en+=nu.getE();
       alive+=1;
+    }
+    std::string mat=nu.getMat();
+    if(mat!="void")
+    {
+      if (m_crossX[mat].find("fis") == m.end())
+      {}
+      else
+      {
+        double dis=nu.getStep();
+        double cxTot=getCXTot(mat,nu.getE())*6.022E9*m_matDens[mat];
+        double cxFis=getCX(mat,"fis",nu.getE())**6.022E9*m_matDens[mat];
+        double cxAbs=getCX(mat,"abs",nu.getE())**6.022E9*m_matDens[mat];
+        if(nu.getCol())
+        {
+          m_colEst+=cxFis/cxTot*m_nuBar[mat]; //*nu.getWeight();
+        }
+        m_pathEst+=dis*cxFism_nuBar[mat];//*nu.getWeight();
+        if(death==1||death==2)
+        {
+          m_absEst+=m_nuBar[mat]*cxFis/(cxFis+cxAbs);//*nu.getWeight();
+        }
+      }
     }
   }
   m_avEnergy=en/alive;

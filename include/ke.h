@@ -11,6 +11,7 @@ class materialManager
 {
   private :
     // maps material to type of cross section to values (energy,cx)
+    // cross sections accepted: "fis" (fission), "abs" (absorb), "sca" (scatter)
     std::map<std::string,std::map<std::string,std::vector<std::pair<double,double>>>> m_crossX;
     std::map<std::string,vector<std::string>> m_matTypes;
     std::map<std::string,double> m_matDens;
@@ -57,6 +58,9 @@ class tallies
     double m_avFis;
     double m_avCap;
     double m_avSurvive;
+    double m_colEst;
+    double m_absEst;
+    double m_pathEst;
     int m_num;
   public:
     tallies(state a_state); 
