@@ -17,6 +17,9 @@ public:
 	bool m_isDead;
   int m_DeathType; //0 escape, 1 capture, 2 fission
   double m_weight;
+  bool m_col; // did it colide
+  std::string m_mat; //material
+  double m_step;
 public:
 	neutron();
 	~neutron();
@@ -37,6 +40,11 @@ double getSteppedPos(double a_dist);
 void stepNewPos(double a_dist);
 void kill(int a_type);
 int getDeath();
+void setMat(std::string a_mat);
+void setCol(bool a_col);
+std::string getMat();
+bool getCol();
+double getStep();
 
 	
 };

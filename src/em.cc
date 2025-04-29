@@ -74,6 +74,7 @@ void neutron::stepNewPos(double a_dist)
 {
   m_x=m_x+std::cos(m_theta)*a_dist;
   m_y=m_y+std::sin(m_theta)*a_dist;
+  m_step=a_dist;
 }
 void neutron::kill(a_type)
 {
@@ -83,6 +84,26 @@ void neutron::kill(a_type)
 int neutron::getDeath()
 {
   return m_m_DeathType
+}
+void neutron::setMat(std::string a_mat)
+{
+  m_mat=a_mat;
+}
+void neutron::setCol(a_col)
+{
+  m_col=a_col;
+}
+std::string neutron::getMat()
+{
+  return m_mat;
+}
+bool neutron::getCol()
+{
+  return m_col;
+}
+double neutron::getStep()
+{
+  return m_step;
 }
 state::state()
 {
