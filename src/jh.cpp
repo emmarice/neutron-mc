@@ -1,5 +1,5 @@
 #include "jh.h"
-#include <shtring.h>
+#include <string.h>
 
 
 MCstats::MCstats()

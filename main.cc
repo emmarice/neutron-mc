@@ -1,7 +1,10 @@
 // main program?
-#include "jh.h"
-#include "ke.h"
-#include "em.h"
+#include "include/jh.h"
+#include "src/jh.cpp"
+#include "include/ke.h"
+#include "src/ke.cpp"
+#include "include/em.h"
+#include "src/em.cpp"
 
 /*
   The arguments for main will take in order:
@@ -17,7 +20,7 @@ int main(int argc, char* argv[])
   float ydim = argv[2];
   int grids = argv[3];
   fission_sites = new MCstats(xdim,ydim,grids);
-  
+
 
 
 
