@@ -13,8 +13,11 @@ public:
   fission_sites();
   // Sets the size of the array of fission sites, points to [0,0]
   void setFissionSite(neutron::neutron a_neutron);
-  int * getRow(int row);
-  bool fisCon(std::vector<neutron>)
+  void setFissionSite(neutron::neutron a_neutron, float a_n);
+  float ** allocate(int a_row, int a_col);
+  void deallocate();
+  float * getRow(int row);
+  bool fisCon(std::vector<neutron>);
   void setDims(float a_x, float a_y, int grains);
 
 }

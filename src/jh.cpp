@@ -1,4 +1,5 @@
 #include "jh.h"
+#include <shtring.h>
 
 
 MCstats::MCstats()
@@ -12,9 +13,12 @@ void MCstats::setDims(float a_x, float a_y, int grains)
   m_grains = grains;
 }
 
-MCstats::MCstats(int rows, int cols)
+MCstats::MCstats(float a_x, float a_y, int grains)
 {
-    m_fission_sites=allocate(rows,cols);
+    m_row = (int)a_x*grains;
+    m_col = (int)a_y*grains;
+    m_grains = grains;
+    m_fission_sites=allocate(m_row,m_col);
 }
 
 void MCstats::deallocate()
@@ -25,14 +29,17 @@ void MCstats::deallocate()
     delete [] m_fission_sites;
 }
 
-int ** MCstats::allocate(int rows, int cols)
+float ** MCstats::allocate(int rows, int cols)
 {
     int r =  rows;
     int c = cols;
 
-    int ** new_sites=  new int*[rows];
+    float ** new_sites=  new float*[rows];
     for (int row =0; row<rows; row++){
-      new_sites[row]= new int[cols];
+      new_sites[row]= new float[cols];
+      // Have to set cols*4 since each float is 4 bytes
+      memset(new_sites[row],0,cols*4);
+      std::cout << new_sites[row] << std::endl;
     }
     return new_sites;
 }
@@ -55,10 +62,21 @@ MCstats::setFissionSite(neutron::neutron a_neutron)
   if (yloc > m_col){
     std::cerr <<" ERROR: The column at index " <<yloc<< " is out of bounds"<<std::endl;
   } else {
-    m_fission_sites.getRow(xloc)[yloc] +=1;
+    m_fission_sites.getRow(xloc)[yloc] +=1.0;
   }
 }
 
+MCstats::setFissionSite(neutron::neutron a_neutron, float a_n)
+{
+  float n = a_n;
+  int xloc = (int)m_grains*a_neutron.m_x;
+  int yloc = (int)m_grains*a_neutron.m_y;
+  if (yloc > m_col){
+    std::cerr <<" ERROR: The column at index " <<yloc<< " is out of bounds"<<std::endl;
+  } else {
+    m_fission_sites.getRow(xloc)[yloc] += n;
+  }
+}
 MCstats::~MCstats()
 {
     deallocate();
