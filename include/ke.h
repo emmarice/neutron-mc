@@ -9,7 +9,7 @@
 // manages materials and getting crossection
 class materialManager
 {
-  public:
+  private :
     // maps material to type of cross section to values (energy,cx)
     std::map<std::string,std::map<std::string,std::vector<std::pair<double,double>>>> m_crossX;
     std::map<std::string,vector<std::string>> m_matTypes;
@@ -76,5 +76,20 @@ class reducedState
     reducedState();
     void addReduced(tallies a_tally);
     std::vector<tallies> getTallies();
+}
+class randomGen
+{
+  private:
+    int m_a;
+    int m_b;
+    int m_m;
+    int m_xi;
+  public:
+    randomGen(int a_x);
+    randomGen()
+    void setSeed(int a_x);
+    void setPars(int a_a,int a_b,int a_m);
+    int getRand();
+    double getNormRand();
 }
 #endif

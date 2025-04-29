@@ -215,3 +215,39 @@ std::vector<tallies> reducedState::getTallies()
 {
   return m_reducedStates;
 }
+randomGen::randomGen(a_x)
+{
+  m_a(104729),
+  m_b(8675309),
+  m_m(int(std::pow(2,64))),
+  m_xi(a_x)
+}
+randomGen::randomGen()
+{
+  m_a(104729),
+  m_b(8675309),
+  m_m(int(std::pow(2,64))),
+  m_xi(8675)
+}
+void randomGen::setSeed(a_x)
+{
+  m_xi=a_x;
+}
+void randomGen::setPars(int a_a,int a_b,int a_m)
+{
+  m_a=a_a;
+  m_b=a_b;
+  m_m=a_m;
+}
+int randomGen::getRand()
+{
+  m_xi=(m_a*m_xi+m_b)%m_m;
+  return m_xi;
+}
+double randomGen::getNormRand()
+{
+  m_xi=(m_a*m_xi+m_b)%m_m;
+  double nor=double(m_xi)/double(m_m);
+  return nor;
+}
+
