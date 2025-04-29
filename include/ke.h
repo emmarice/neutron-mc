@@ -69,6 +69,9 @@ class tallies
     double getFis();
     double getCap();
     double getAlive();
+    double getColEst();
+    double getAbsEst();
+    double getPathEst();
     int getNum();
 
 }

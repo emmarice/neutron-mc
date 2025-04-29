@@ -224,8 +224,20 @@ double tallies::getAlive()
 {
   return m_avSurvive
 }
+double tallies::getColEst();
+{
+  return m_colEst;
+}
+double tallies::getAbsEst();
+{
+  return m_absEst;
+}
+double tallies::getPathEst();
+{
+  return m_pathEst;
+}
 int tallies::getNum()
-{x
+{
   return m_num
 }
 reducedState::reducedState()
