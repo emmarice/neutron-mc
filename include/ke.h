@@ -109,7 +109,7 @@ class tallies
 };
 class reducedState
 {
-  public:
+  private:
     std::vector<tallies> m_reducedStates;
   public:
     reducedState();

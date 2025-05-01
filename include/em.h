@@ -11,7 +11,7 @@ using std::pair;
 #include <utility>
 class neutron
 {
-public:
+private:
 	double m_energy; // energy in keV
 	double m_x; //x position as measured from -- in [units]
 	double m_y; //y position as measured from -- in [units]
