@@ -61,15 +61,15 @@ void materialManager::addDensity(std::string a_matName,double a_rho, double a_A)
 }
 std::string materialManager::matFinder(double a_x, double a_y)
 {
-  for(std::string mat : m_mats)
+  for(std::string reg : m_regions)
   {
-    double xLow=m_geo[mat].first.first;
-    double xHigh=m_geo[mat].first.second;
-    double yLow=m_geo[mat].second.first;
-    double yHigh=m_geo[mat].second.second;
+    double xLow=m_geo[reg].second.first.first;
+    double xHigh=m_geo[reg].second.first.second;
+    double yLow=m_geo[reg].second.second.first;
+    double yHigh=m_geo[reg].second.second.second;
     if(a_x>xLow && a_x<xHigh && a_y>yLow && a_y<yHigh)
     {
-      return mat;
+      return m_geo[reg].first;
     }
   }
   return "void";
@@ -128,6 +128,8 @@ std::string materialManager::getReactionType(double a_eta,std::string a_matName,
       return ty;
     }
   }
+  std::cout<<"something went wrong in reaction sample"<<std::endl;
+  return "oops";
 }
  std::pair<int,std::vector<double>> materialManager::getFisInfo(std::string a_matName,double a_eta,
                             randomGen* a_rand)
@@ -166,16 +168,20 @@ std::string materialManager::getReactionType(double a_eta,std::string a_matName,
   pair<int,std::vector<double>> outp={nF,es};
   return outp;
 }
-void materialManager::addShape(std::string a_mat,double a_xLow, double a_yLow,
+void materialManager::addShape(std::string a_reg, std::string a_mat,double a_xLow, double a_yLow,
                    double a_xHigh, double a_yHigh)
 {
+  m_regions.push_back(a_reg);
   std::pair<std::pair<double,double>,std::pair<double,double>> posPair=
                                     {{a_xLow,a_xHigh},{a_yLow,a_yHigh}};
-  m_geo[a_mat]=posPair;
+  std::pair<std::string,std::pair<std::pair<double,double>,std::pair<double,double>>> outPair=
+    {a_reg,posPair};
+  m_geo[a_reg]=outPair;
 }
 void materialManager::addShapeFromFile(std::string a_fileName)
 {
   std::ifstream shapeFile(a_fileName);
+  std::string reg;
   std::string mat;
   double xlow;
   double ylow;
@@ -187,6 +193,8 @@ void materialManager::addShapeFromFile(std::string a_fileName)
   {
     std::stringstream linStream(line);
     getline(linStream,tempWord,',');
+    reg=tempWord;
+    getline(linStream,tempWord,',');
     mat=tempWord;
     getline(linStream,tempWord,',');
     xlow=std::stod(tempWord);
@@ -197,7 +205,7 @@ void materialManager::addShapeFromFile(std::string a_fileName)
     getline(linStream,tempWord,',');
     yhigh=std::stod(tempWord);
     std::cout<<"adding:"<<mat<<std::endl;
-    addShape(mat,xlow,ylow,xhigh,yhigh);
+    addShape(reg,mat,xlow,ylow,xhigh,yhigh);
   }
 }
 std::map<std::string,std::map<std::string,std::vector<std::pair<double,double>>>> materialManager::getCXS()

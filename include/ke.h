@@ -43,9 +43,10 @@ class materialManager
     std::map<std::string,std::vector<std::string>> m_matTypes;
     std::map<std::string,double> m_matDens;
     std::vector<std::string> m_mats;
+    std::vector<std::string> m_regions;
     std::map<std::string,double> m_nuBar;
-    // map of material to pair of x bounds and y bounds
-    std::map<std::string,std::pair<std::pair<double,double>,std::pair<double,double>>> m_geo;
+    // map of region to material and pair of x bounds and y bounds
+    std::map<std::string,std::pair<std::string,std::pair<std::pair<double,double>,std::pair<double,double>>>> m_geo;
   public:
     materialManager();
     // adds given CX from JANIS file
@@ -76,7 +77,7 @@ class materialManager
                                               double a_eta, randomGen* a_rand);
     // adds a rectangle to the model given corner points
     // give the name of the material, bottom corner and top corner
-    void addShape(std::string a_mat,double a_xLow, double a_yLow,
+    void addShape(std::string a_reg, std::string a_mat,double a_xLow, double a_yLow,
                    double a_xHigh, double a_yHigh);
     void addShapeFromFile(std::string a_fileName);
 };
