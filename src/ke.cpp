@@ -27,7 +27,7 @@ void materialManager::addCX(std::string a_matName,std::string a_CXType,
   {
     std::stringstream strSec(line);
     getline(strSec,tempWord,';');
-    En=stod(tempWord)/1000;
+    En=stod(tempWord);
     getline(strSec,tempWord,';');
     Cx=stod(tempWord);
     m_crossX[a_matName][a_CXType].push_back({En,Cx});
@@ -80,26 +80,33 @@ std::string materialManager::matFinder(double a_x, double a_y)
 double materialManager::getCX(std::string a_matName,std::string a_type
                         ,double a_En)
 {
-  bool foundLow=false;
+  bool foundH=false;
   double eLow=0;
   double cxLow=0;
   double eHigh=0;
   double cxHigh=0;
-  double En=a_En*1000; //covert to keV
+  double En=a_En*1000; //covert to eV
 
   for(std::pair enX: m_crossX[a_matName][a_type])
   {
-    if(foundLow)
+    if(En==enX.first)
     {
-      eHigh=enX.first;
-      cxHigh=enX.second;
+      return enX.second;
+    }
+    if(En<enX.first)
+    {
+      if(!foundH)
+      {
+        eHigh=enX.first;
+        cxHigh=enX.second;
+        foundH=true;
+      }
       continue;
     }
     else if(En>enX.first)
     {
       eLow=enX.first;
       cxLow=enX.second;
-      foundLow=true;
     }
   }
   double efrac=(En-eLow)/(eHigh-eLow);
