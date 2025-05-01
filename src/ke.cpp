@@ -85,6 +85,7 @@ double materialManager::getCX(std::string a_matName,std::string a_type
   double cxLow=0;
   double eHigh=0;
   double cxHigh=0;
+  double En=a_En*1000; //covert to keV
 
   for(std::pair enX: m_crossX[a_matName][a_type])
   {
@@ -94,14 +95,14 @@ double materialManager::getCX(std::string a_matName,std::string a_type
       cxHigh=enX.second;
       continue;
     }
-    else if(a_En>enX.first)
+    else if(En>enX.first)
     {
       eLow=enX.first;
       cxLow=enX.second;
       foundLow=true;
     }
   }
-  double efrac=(a_En-eLow)/(eHigh-eLow);
+  double efrac=(En-eLow)/(eHigh-eLow);
   return cxLow+efrac*(cxHigh-cxLow);
 }
 double materialManager::getCXTot(std::string a_matName,double a_En)
