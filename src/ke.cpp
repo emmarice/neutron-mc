@@ -350,7 +350,7 @@ randomGen::randomGen(int a_x)
 {
   m_a=104729;
   m_b=8675309;
-  m_m=int(std::pow(2,64));
+  m_m=int(std::pow(2,32));
   m_xi=a_x;
 }
 randomGen::randomGen()

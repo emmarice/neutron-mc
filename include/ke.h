@@ -25,7 +25,7 @@ class randomGen
     int m_a;
     int m_b;
     int m_m;
-    int m_xi;
+    long m_xi;
   public:
     randomGen(int a_x);
     randomGen();
