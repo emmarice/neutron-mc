@@ -38,7 +38,7 @@ class materialManager
 {
   private :
     // maps material to type of cross section to values (energy,cx)
-    // cross sections accepted: "fis" (fission), "abs" (absorb), "sca" (scatter)
+    // cross sections accepted: "fis" (fission), "abs" (absorb), "tot" (total for scater)
     std::map<std::string,std::map<std::string,std::vector<std::pair<double,double>>>> m_crossX;
     std::map<std::string,std::vector<std::string>> m_matTypes;
     std::map<std::string,double> m_matDens;

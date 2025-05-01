@@ -40,7 +40,10 @@ void materialManager::addMaterial(std::string a_matName,
   for(auto fi:a_files)
   {
     addCX(a_matName,fi.first,fi.second);
-    m_matTypes[a_matName].push_back(fi.first);
+    if(fi.first!="tot")
+    {
+      m_matTypes[a_matName].push_back(fi.first);
+    }
     m_mats.push_back(a_matName);
   }
 }
@@ -103,12 +106,13 @@ double materialManager::getCX(std::string a_matName,std::string a_type
 }
 double materialManager::getCXTot(std::string a_matName,double a_En)
 {
-  double totalCX=0;
-  for (std::string ty:m_matTypes[a_matName])
-  {
-    totalCX=totalCX+getCX(a_matName,ty,a_En);
-  }
-  return totalCX;
+  // double totalCX=0;
+  // for (std::string ty:m_matTypes[a_matName])
+  // {
+  //   totalCX=totalCX+getCX(a_matName,ty,a_En);
+  // }
+  // return totalCX;
+  return getCX(a_matName,"tot",a_En);
 }
 double materialManager::getDist(std::string a_matName,double a_En,double a_eta)
 {
@@ -128,8 +132,8 @@ std::string materialManager::getReactionType(double a_eta,std::string a_matName,
       return ty;
     }
   }
-  std::cout<<"something went wrong in reaction sample"<<std::endl;
-  return "oops";
+  // std::cout<<"something went wrong in reaction sample"<<std::endl;
+  return "scat";
 }
  std::pair<int,std::vector<double>> materialManager::getFisInfo(std::string a_matName,double a_eta,
                             randomGen* a_rand)
