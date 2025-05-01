@@ -95,6 +95,7 @@ class tallies
     double m_pathEst;
     int m_num;
   public:
+    tallies();
     tallies(state a_state,materialManager* a_mats); 
     double getAvEn();
     double getEscape();

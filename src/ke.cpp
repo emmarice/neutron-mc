@@ -225,6 +225,10 @@ std::map<std::string,double> materialManager::getNus()
 {
   return m_nuBar;
 }
+tallies::tallies()
+{
+  // nothing here
+}
 tallies::tallies(state a_state,materialManager* a_mats)
 {
   m_colEst=0;
