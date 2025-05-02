@@ -124,7 +124,7 @@ neutron::~neutron()
   std::cout<< "Neutron deleted!"<< std::endl;
 } //end of neutron::~neutron
 
-void state::step(materialManager * mat, randomGen * rgen) // steps forward in time, changing the vector of neutrons for the state
+void state::step(MCstats* fish, materialManager * mat, randomGen * rgen) // steps forward in time, changing the vector of neutrons for the state
 {
   m_particles_count = m_particles.size(); //length of m_neutrons
   // if m_neutrons is empty print a warning?
@@ -142,13 +142,21 @@ void state::step(materialManager * mat, randomGen * rgen) // steps forward in ti
         // sample distance to interaction
         string mtype = mat->matFinder(m_particles[i].getPos());
         double distance = mat->getDist(mtype, m_particles[i].getPos());
+        std::pair<double,double> newpos = m_particles[i].getSteppedPos(distance);
+        string newmtype = mat->matFinder(newpos);
         // if boundary is being crossed:
-        if (/* boundary is being crossed */)
+        if (mtype != newmtype)
         {
           // move to boundary
+          m_particles[i].setPos(mat->findBound(newpos, m_particles[i]));
           // update material
           mtype = mat->matFinder(m_particles[i].getPos());
         }
+        else
+        {
+          m_particles[i].stepNewPos(distance);
+        }
+
         // if escaped:
         if (mtype == "void")
         {
@@ -173,7 +181,7 @@ void state::step(materialManager * mat, randomGen * rgen) // steps forward in ti
             // kill neutron
             m_particles[i].killN(2);
             // sample number of neutrons produced & save for next gen
-            (getFisInfo(mtype, rgen->getNormRand(),rgen->getNormRand()));
+            fish->setFissionSite(m_particles[i], getFisInfo(mtype, rgen->getNormRand(),rgen->getNormRand()));
           }
           // if scattered:
           else if (rx == "scat")
