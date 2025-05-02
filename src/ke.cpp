@@ -60,6 +60,7 @@ void materialManager::addDensity(std::string a_matName,double a_rho, double a_A)
   else
   {
     m_matDens[a_matName]=a_rho/a_A;
+    m_As[a_matName]=a_A;
   }
 }
 std::string materialManager::matFinder(double a_x, double a_y)
