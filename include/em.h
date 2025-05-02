@@ -24,6 +24,7 @@ private:
   double m_step;
 public:
 	neutron();
+  neutron(double a_en,double a_x,double a_y, double a_angle);
 	~neutron();
 	/* void func()
       -brief: 

@@ -1,4 +1,4 @@
-#include "em.h"
+#include "../include/em.h"
 
 /**************************************************************/
 /* em class functions *****************************************/
@@ -14,15 +14,15 @@ neutron::neutron()
   m_isDead=false;
   m_DeathType=-100;
 }
-// neutron::neutron(double a_en,double a_x,double a_y, double)
-// {
-//   m_energy=a_en;
-//   m_x=a_x;
-//   m_y=a_y;
-//   m_theta=0;
-//   m_isDead=false;
-//   m_DeathType=-100;
-// }
+neutron::neutron(double a_en,double a_x,double a_y, double a_angle)
+{
+  m_energy=a_en;
+  m_x=a_x;
+  m_y=a_y;
+  m_theta=a_angle;
+  m_isDead=false;
+  m_DeathType=-100;
+}
 
 double neutron::getE()
 {
@@ -113,4 +113,9 @@ int state::getNumParticles()
 void state::addNeutron(neutron a_neut)
 {
   m_particles.push_back(a_neut);
+}
+
+neutron::~neutron()
+{
+  std::cout<< "Neutron deleted!"<< std::endl;
 }

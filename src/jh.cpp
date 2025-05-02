@@ -42,7 +42,6 @@ float ** MCstats::allocate(int rows, int cols)
       new_sites[row]= new float[cols];
       // Have to set cols*4 since each float is 4 bytes
       memset(new_sites[row],0,cols*4);
-      std::cout << *new_sites[row] << std::endl;
     }
     return new_sites;
 }
@@ -61,8 +60,8 @@ float * MCstats::getRow(int row)
 // This function adds a new fission site wherever the neutron fissions
 void MCstats::setFissionSite(neutron a_neutron)
 {
-  int xloc = (int)a_neutron.m_x*m_grains;
-  int yloc = (int)a_neutron.m_y*m_grains;
+  int xloc = (int)a_neutron.getPos().first*m_grains;
+  int yloc = (int)a_neutron.getPos().second*m_grains;
   if (yloc > m_col){
     std::cerr <<" ERROR: The column at index " <<yloc<< " is out of bounds"<<std::endl;
   } else {
@@ -73,8 +72,8 @@ void MCstats::setFissionSite(neutron a_neutron)
 void MCstats::setFissionSite(neutron a_neutron, float a_n)
 {
   float n = a_n;
-  int xloc = (int)m_grains*a_neutron.m_x;
-  int yloc = (int)m_grains*a_neutron.m_y;
+  int xloc = (int)m_grains*a_neutron.getPos().first;
+  int yloc = (int)m_grains*a_neutron.getPos().second;
   if (yloc > m_col){
     std::cerr <<" ERROR: The column at index " <<yloc<< " is out of bounds"<<std::endl;
   } else {

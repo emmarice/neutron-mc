@@ -3,6 +3,8 @@
 #include "src/jh.cpp"
 #include "include/em.h"
 #include "src/em.cc"
+#include "include/ke.h"
+#include "src/ke.cpp"
 #include <iostream>
 
 /*
