@@ -94,3 +94,23 @@ MCstats::~MCstats()
 {
     deallocate();
 }
+
+for(int i=0 ; i<nF ; i++)
+  {
+    double minE=1e-8;
+    double maxE=15.0;
+    double maxP=0.358206;
+    bool reject=true;
+    while(reject)
+    {
+      double eta1=a_rand->getNormRand();
+      double eta2=a_rand->getNormRand();
+      double xx=minE+eta1*(maxE-minE);
+      double p=0.453*std::exp(-1.036*xx)*std::sinh(std::pow(2.29*xx,1/2));
+      if(eta2*maxP<=p)
+      {
+        reject=false;
+        es.push_back(xx/1000); //convert to kev
+      }
+    }
+  }

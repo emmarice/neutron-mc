@@ -64,6 +64,7 @@ class materialManager
     // a rho either in mol/cm^3 or g/cm^3
     void addDensity(std::string a_matName,double a_rho, double a_A=-100);
     std::string matFinder(double a_x, double a_y);
+    std::string matFinder(std::pair<double,double> a_pos);
     // get CX at given energy in material
     double getCX(std::string a_matName,std::string a_type,double a_En);
     // get total cx
@@ -75,13 +76,13 @@ class materialManager
     std::string getReactionType(double a_eta,std::string a_matName,
                                 double a_En);
     double getScatEn(double a_En, double a_eta,std::string a_matName);
-    std::pair<int,std::vector<double>> getFisInfo(std::string a_matName,
-                                              double a_eta, randomGen* a_rand);
+    int getFisInfo(std::string a_matName,
+                                              double a_eta);
     // adds a rectangle to the model given corner points
     // give the name of the material, bottom corner and top corner
     void addShape(std::string a_reg, std::string a_mat,double a_xLow, double a_yLow,
                    double a_xHigh, double a_yHigh);
-    void addShapeFromFile(std::string a_fileName);
+    std::pair<double,double> addShapeFromFile(std::string a_fileName);
 };
 // reduces state to tallies and saves them
 class tallies
