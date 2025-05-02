@@ -74,6 +74,7 @@ class materialManager
     // and the energy of the neutron
     std::string getReactionType(double a_eta,std::string a_matName,
                                 double a_En);
+    double getScatEn(double a_En, double a_eta,std::string a_matName);
     std::pair<int,std::vector<double>> getFisInfo(std::string a_matName,
                                               double a_eta, randomGen* a_rand);
     // adds a rectangle to the model given corner points
