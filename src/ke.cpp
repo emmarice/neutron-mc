@@ -144,6 +144,11 @@ std::string materialManager::getReactionType(double a_eta,std::string a_matName,
   // std::cout<<"something went wrong in reaction sample"<<std::endl;
   return "scat";
 }
+double materialManager::getScatEn(double a_En, double a_eta,std::string a_matName)
+{
+  double alpha=pow(((m_As[a_matName]-1)/(m_As[a_matName])),2);
+  return alpha*a_En+a_eta*(a_En-alpha*a_En);
+}
  std::pair<int,std::vector<double>> materialManager::getFisInfo(std::string a_matName,double a_eta,
                             randomGen* a_rand)
 {
