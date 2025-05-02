@@ -45,6 +45,7 @@ class materialManager
     std::vector<std::string> m_mats;
     std::vector<std::string> m_regions;
     std::map<std::string,double> m_nuBar;
+    std::map<std::string,int> m_As;
     // map of region to material and pair of x bounds and y bounds
     std::map<std::string,std::pair<std::string,std::pair<std::pair<double,double>,std::pair<double,double>>>> m_geo;
   public:
