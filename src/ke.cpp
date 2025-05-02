@@ -125,7 +125,7 @@ double materialManager::getCXTot(std::string a_matName,double a_En)
 }
 double materialManager::getDist(std::string a_matName,double a_En,double a_eta)
 {
-  double totCX=getCXTot(a_matName,a_En)*6.022E9*m_matDens[a_matName];
+  double totCX=getCXTot(a_matName,a_En)*0.6022*m_matDens[a_matName];
   return -1*std::log(1-a_eta)/totCX;
 }
 std::string materialManager::getReactionType(double a_eta,std::string a_matName,
