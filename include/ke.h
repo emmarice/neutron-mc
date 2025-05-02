@@ -76,7 +76,7 @@ class materialManager
                                 double a_En);
     double getScatEn(double a_En, double a_eta,std::string a_matName);
     int getFisInfo(std::string a_matName,
-                                              double a_eta, randomGen* a_rand);
+                                              double a_eta);
     // adds a rectangle to the model given corner points
     // give the name of the material, bottom corner and top corner
     void addShape(std::string a_reg, std::string a_mat,double a_xLow, double a_yLow,
