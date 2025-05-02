@@ -64,6 +64,7 @@ class materialManager
     // a rho either in mol/cm^3 or g/cm^3
     void addDensity(std::string a_matName,double a_rho, double a_A=-100);
     std::string matFinder(double a_x, double a_y);
+    std::string matFinder(std::pair<double,double> a_pos);
     // get CX at given energy in material
     double getCX(std::string a_matName,std::string a_type,double a_En);
     // get total cx
