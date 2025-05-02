@@ -78,6 +78,13 @@ std::string materialManager::matFinder(double a_x, double a_y)
   }
   return "void";
 }
+std::string materialManager::matFinder(std::pair<double, double> a_pos)
+{
+  double x=a_pos.first;
+  double y=a_pos.second;
+  std::string outp=matFinder(x,y);
+  return outp;
+}
 double materialManager::getCX(std::string a_matName,std::string a_type
                         ,double a_En)
 {
