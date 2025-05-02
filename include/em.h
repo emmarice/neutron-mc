@@ -6,10 +6,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cmath>
-#include <pair>
+#include <string>
+using std::pair;
+#include <utility>
 class neutron
 {
-public:
+private:
 	double m_energy; // energy in keV
 	double m_x; //x position as measured from -- in [units]
 	double m_y; //y position as measured from -- in [units]
@@ -35,9 +37,9 @@ void setPos(double a_x,double a_y);
 void setPos(std::pair<double,double> a_pos);
 double getAngle();
 void setAngle(double a_angle);
-double getSteppedPos(double a_dist);
+std::pair<double,double> getSteppedPos(double a_dist);
 void stepNewPos(double a_dist);
-void kill(int a_type);
+void killN(int a_type);
 int getDeath();
 void setMat(std::string a_mat);
 void setCol(bool a_col);

@@ -7,22 +7,22 @@
 
 neutron::neutron()
 {
-  m_energy(0),
-  m_x(0),
-  m_y(0),
-  m_theta(0),
-  m_isDead(false),
-  m_DeathType(-100)
+  m_energy=0;
+  m_x=0;
+  m_y=0;
+  m_theta=0;
+  m_isDead=false;
+  m_DeathType=-100;
 }
-neutron::neutron(double a_en,double a_x,double a_y, double)
-{
-  m_energy(0),
-  m_x(0),
-  m_y(0),
-  m_theta(0),
-  m_isDead(false),
-  m_DeathType(-100)
-}
+// neutron::neutron(double a_en,double a_x,double a_y, double)
+// {
+//   m_energy=a_en;
+//   m_x=a_x;
+//   m_y=a_y;
+//   m_theta=0;
+//   m_isDead=false;
+//   m_DeathType=-100;
+// }
 
 double neutron::getE()
 {
@@ -44,13 +44,9 @@ void neutron::setPos(double a_x,double a_y)
 }
 void neutron::setPos(std::pair<double,double> a_pos)
 {
-  xp=a_pos.first;
-  yp=a_pos.second;
+  double xp=a_pos.first;
+  double yp=a_pos.second;
   setPos(xp,yp);
-}
-double neutron::getE()
-{
-  return m_energy;
 }
 double neutron::getAngle()
 {
@@ -60,7 +56,7 @@ void neutron::setAngle(double a_angle)
 {
   m_theta=a_angle;
 }
-double neutron::getSteppedPos(double a_dist)
+std::pair<double,double> neutron::getSteppedPos(double a_dist)
 {
   double xn=m_x+std::cos(m_theta)*a_dist;
   double yn=m_y+std::sin(m_theta)*a_dist;
@@ -73,20 +69,20 @@ void neutron::stepNewPos(double a_dist)
   m_y=m_y+std::sin(m_theta)*a_dist;
   m_step=a_dist;
 }
-void neutron::kill(a_type)
+void neutron::killN(int a_type)
 {
   m_isDead=true;
   m_DeathType=a_type;
 }
 int neutron::getDeath()
 {
-  return m_m_DeathType
+  return m_DeathType;
 }
 void neutron::setMat(std::string a_mat)
 {
   m_mat=a_mat;
 }
-void neutron::setCol(a_col)
+void neutron::setCol(bool a_col)
 {
   m_col=a_col;
 }
