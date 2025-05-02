@@ -149,8 +149,7 @@ double materialManager::getScatEn(double a_En, double a_eta,std::string a_matNam
   double alpha=pow(((m_As[a_matName]-1)/(m_As[a_matName])),2);
   return alpha*a_En+a_eta*(a_En-alpha*a_En);
 }
- std::pair<int,std::vector<double>> materialManager::getFisInfo(std::string a_matName,double a_eta,
-                            randomGen* a_rand)
+ int materialManager::getFisInfo(std::string a_matName,double a_eta)
 {
   double nu=m_nuBar[a_matName];
   int nuInt =int(nu);
@@ -164,27 +163,7 @@ double materialManager::getScatEn(double a_En, double a_eta,std::string a_matNam
   {
     nF=nuInt;
   }
-  for(int i=0 ; i<nF ; i++)
-  {
-    double minE=1e-8;
-    double maxE=15.0;
-    double maxP=0.358206;
-    bool reject=true;
-    while(reject)
-    {
-      double eta1=a_rand->getNormRand();
-      double eta2=a_rand->getNormRand();
-      double xx=minE+eta1*(maxE-minE);
-      double p=0.453*std::exp(-1.036*xx)*std::sinh(std::pow(2.29*xx,1/2));
-      if(eta2*maxP<=p)
-      {
-        reject=false;
-        es.push_back(xx/1000); //convert to kev
-      }
-    }
-  }
-  pair<int,std::vector<double>> outp={nF,es};
-  return outp;
+  return nF;
 }
 void materialManager::addShape(std::string a_reg, std::string a_mat,double a_xLow, double a_yLow,
                    double a_xHigh, double a_yHigh)
@@ -193,10 +172,10 @@ void materialManager::addShape(std::string a_reg, std::string a_mat,double a_xLo
   std::pair<std::pair<double,double>,std::pair<double,double>> posPair=
                                     {{a_xLow,a_xHigh},{a_yLow,a_yHigh}};
   std::pair<std::string,std::pair<std::pair<double,double>,std::pair<double,double>>> outPair=
-    {a_reg,posPair};
+    {a_mat,posPair};
   m_geo[a_reg]=outPair;
 }
-void materialManager::addShapeFromFile(std::string a_fileName)
+std::pair<double,double> materialManager::addShapeFromFile(std::string a_fileName)
 {
   std::ifstream shapeFile(a_fileName);
   std::string reg;
@@ -205,10 +184,13 @@ void materialManager::addShapeFromFile(std::string a_fileName)
   double ylow;
   double xhigh;
   double yhigh;
+  double xHest=0;
+  double yHest=0;
   std::string line;
   std::string tempWord;
   while (getline(shapeFile,line))
   {
+    // std::cout<<line<<std::endl;
     std::stringstream linStream(line);
     getline(linStream,tempWord,',');
     reg=tempWord;
@@ -224,7 +206,17 @@ void materialManager::addShapeFromFile(std::string a_fileName)
     yhigh=std::stod(tempWord);
     std::cout<<"adding:"<<mat<<std::endl;
     addShape(reg,mat,xlow,ylow,xhigh,yhigh);
+    if(xhigh>xHest)
+    {
+      xHest=xhigh;
+    }
+    if(yhigh>yHest)
+    {
+      yHest=yhigh;
+    }
   }
+  std::pair<double,double> outp={xHest,yHest};
+  return outp;
 }
 std::map<std::string,std::map<std::string,std::vector<std::pair<double,double>>>> materialManager::getCXS()
 {
