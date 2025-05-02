@@ -16,7 +16,7 @@ private:
 	double m_x; //x position as measured from -- in [units]
 	double m_y; //y position as measured from -- in [units]
 	double m_theta; //angle in radians
-	bool m_isDead;
+	bool m_isDead; // 0 alive, 1 dead
   int m_DeathType; //0 escape, 1 capture, 2 fission
   double m_weight;
   bool m_col; // did it colide
@@ -47,6 +47,7 @@ void setCol(bool a_col);
 std::string getMat();
 bool getCol();
 double getStep();
+bool getIsDead();
 
 	
 };
