@@ -14,13 +14,14 @@ public:
   MCstats(float a_x, float a_y, int grains);
   // Sets the size of the array of fission sites, points to [0,0]
   void setFissionSite(neutron a_neutron);
-  void setFissionSite(neutron a_neutron, float a_n);
+  void setFissionSite(neutron a_neutron, int a_n);
   float ** allocate(int a_row, int a_col);
   void deallocate();
   float * getRow(int row);
   bool fisCon(std::vector<neutron>);
   void setDims(float a_x, float a_y, int grains);
   void printFissionSites();
+  state nextState();
   ~MCstats();
 
 

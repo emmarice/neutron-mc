@@ -69,7 +69,7 @@ void MCstats::setFissionSite(neutron a_neutron)
   }
 }
 
-void MCstats::setFissionSite(neutron a_neutron, float a_n)
+void MCstats::setFissionSite(neutron a_neutron, int a_n)
 {
   float n = a_n;
   int xloc = (int)m_grains*a_neutron.getPos().first;
@@ -114,3 +114,17 @@ for(int i=0 ; i<nF ; i++)
       }
     }
   }
+
+state nextState(state *a_previousState){
+
+}
+  /* Create a running total of the amount of fission sites in the next generation
+   The probability for a neutron to be born in the next set of 
+   fission sites is the normalized discretized PDF of the current sites
+   nextState returns a vector of neutrons for the next trail run
+   shannon entropy is the bin I/all bins so we should save this as a variable
+
+
+}
+
+*/
