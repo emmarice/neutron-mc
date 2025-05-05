@@ -47,6 +47,70 @@ void materialManager::addMaterial(std::string a_matName,
     m_mats.push_back(a_matName);
   }
 }
+std::pair<double,double> materialManager::findBound(neutron a_neutron, double a_d)
+{
+  double angle=a_neutron.getAngle();
+  double oldx=a_neutron.getPos().first;
+  double oldy=a_neutron.getPos().second;
+  double xlb=-100;
+  double ylb=-100;
+  double xhb=-100;
+  double yhb=-100;
+  std::pair<double,double> newP =a_neutron.getSteppedPos(a_d);
+  double newx=newP.first;
+  double newy=newP.second;
+  for(std::string reg : m_regions)
+  {
+    double xLow=m_geo[reg].second.first.first;
+    double xHigh=m_geo[reg].second.first.second;
+    double yLow=m_geo[reg].second.second.first;
+    double yHigh=m_geo[reg].second.second.second;
+    if(newx>xLow && newx<xHigh && newy>yLow && newy<yHigh)
+    {
+      xlb=xLow;
+      xhb=xHigh;
+      ylb=yLow;
+      yhb=yHigh;
+      continue;
+    }
+  }
+  if(xlb==-100)
+  {
+    std::cout<<"void"<<std::endl;
+    return {-100,-100};
+  }
+  // solve function 
+  double yintLow=(newy-oldy)/(newx-oldx)*(xlb-oldx)+oldy;
+  double yintHigh=(newy-oldy)/(newx-oldx)*(xhb-oldx)+oldy;
+  double xintLow=(newx-oldx)/(newy-oldy)*(ylb-oldy)+oldx;
+  double xintHigh=(newx-oldx)/(newy-oldy)*(yhb-oldy)+oldx;
+  if(yintLow>ylb && yintLow<yhb)
+  {
+    // left side
+    return {xlb,yintLow};
+  }
+  if(yintHigh>ylb && yintHigh<yhb)
+  {
+    // right side
+    return {xhb,yintHigh};
+  }
+  if(xintLow>xlb && xintLow<xhb)
+  {
+    // bottom
+    return {xintLow,ylb};
+  }
+  if(xintHigh>xlb && xintHigh<xhb)
+  {
+    // top
+    return {xintHigh,yhb};
+  }
+  else
+  {
+    std::cout<<"error, probably corner??"<<std::endl;
+    return {xlb,ylb};
+  }
+}
+
 void materialManager::addNu(std::string a_matName,double a_nu)
 {
   m_nuBar[a_matName]=a_nu;

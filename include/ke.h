@@ -58,6 +58,7 @@ class materialManager
     //adds name of material with vector of reaction name and file name
     void addMaterial(std::string a_matName,
                     std::vector<std::pair<std::string,std::string>> a_files);
+    std::pair<double,double> findBound(neutron a_nautron, double a_d);
     void addNu(std::string a_matName,double a_nu);
     std::map<std::string,double> getNus();
     // add number density or density calculated if A>0
@@ -99,7 +100,7 @@ class tallies
     int m_num;
   public:
     tallies();
-    tallies(state a_state,materialManager* a_mats); 
+    tallies(state a_state, materialManager* a_mats); 
     double getAvEn();
     double getEscape();
     double getFis();
