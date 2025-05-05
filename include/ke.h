@@ -17,7 +17,7 @@ using std::pair;
 #include <fstream>
 #include <utility>
 #include <sstream>
-#include "em.h"
+#include "baseClasses.h"
 // manages materials and getting crossection
 class randomGen
 {
