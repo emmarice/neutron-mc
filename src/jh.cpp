@@ -1,6 +1,7 @@
 #include "../include/jh.h"
 #include <string.h>
 #include <iostream>
+#include <numbers>
 
 /*
 MCstats::MCstats()
@@ -15,7 +16,7 @@ void MCstats::setDims(float a_x, float a_y, int grains)
   m_grains = grains;
 }
 
-MCstats::MCstats(float a_x, float a_y, int grains)
+MCstats::MCstats(float a_x, float a_y, int grains=1)
 {
     m_row = (int)a_x*grains;
     m_col = (int)a_y*grains;
@@ -66,18 +67,20 @@ void MCstats::setFissionSite(neutron a_neutron)
     std::cerr <<" ERROR: The column at index " <<yloc<< " is out of bounds"<<std::endl;
   } else {
     m_fission_sites[xloc][yloc] +=1.0;
+    m_totalParts+=1;
   }
 }
 
 void MCstats::setFissionSite(neutron a_neutron, int a_n)
 {
-  float n = a_n;
+  int n = a_n;
   int xloc = (int)m_grains*a_neutron.getPos().first;
   int yloc = (int)m_grains*a_neutron.getPos().second;
   if (yloc > m_col){
     std::cerr <<" ERROR: The column at index " <<yloc<< " is out of bounds"<<std::endl;
   } else {
     m_fission_sites[xloc][yloc] += n;
+    m_totalParts += n;
   }
 }
 void MCstats::printFissionSites()
@@ -95,28 +98,56 @@ MCstats::~MCstats()
     deallocate();
 }
 
-for(int i=0 ; i<nF ; i++)
+double MCstats::sampleEnergy(randomGen * a_rand){
+  double minE=1e-8;
+  double maxE=15.0;
+  double maxP=0.358206;
+  bool reject=true;
+  while(reject)
   {
-    double minE=1e-8;
-    double maxE=15.0;
-    double maxP=0.358206;
-    bool reject=true;
-    while(reject)
+    double eta1=a_rand->getNormRand();
+    double eta2=a_rand->getNormRand();
+    double xx=minE+eta1*(maxE-minE);
+    double p=0.453*std::exp(-1.036*xx)*std::sinh(std::pow(2.29*xx,1/2));
+    if(eta2*maxP<=p)
     {
-      double eta1=a_rand->getNormRand();
-      double eta2=a_rand->getNormRand();
-      double xx=minE+eta1*(maxE-minE);
-      double p=0.453*std::exp(-1.036*xx)*std::sinh(std::pow(2.29*xx,1/2));
-      if(eta2*maxP<=p)
-      {
-        reject=false;
-        es.push_back(xx/1000); //convert to kev
+      reject=false;
+      double en =xx/1000; //convert to kev
+    }
+  }
+ return en;
+}
+
+void MCstats::normalizeSites(){
+  for (int row = 0; row< m_row; row++){
+    for (int col =0; col < m_col; col++){
+      m_normSites.push_back(m_fission_sites[row][col]/m_totalParts);
+      m_locations.push_back(std::make_pair(row,col));
+}
+
+state MCstats::nextState(int a_numParticles){
+  state next; 
+  rangomGen * rgen;
+  int numN = 0;
+  double runningTot = 0.0
+  normalizeSites();
+  for (int i = 0; i<a_numParticles; i++){
+    double rando = rgen->getNormRand()
+    for (int j = 0; j<m_normSites.size(); j++){
+      runningTot+=m_normSites[j];
+      if (rando <= runningTot){
+        neutron n;
+        double xpos= (m_locations[j].first() + rgen->getNormRand())/m_grains;
+        double ypos= (m_locations[j].second() + rgen->getNormRand())/m_grains;
+        n.setE(sampleEnergy(rgen));
+        n.setAngle(rgen->getNormRand()*2*std::numbers::pi);
+        n.setPos(xpos,ypos);
+        next.addNeutron(n);
+        break;
       }
     }
   }
-
-state nextState(state *a_previousState){
-
+  return next;
 }
   /* Create a running total of the amount of fission sites in the next generation
    The probability for a neutron to be born in the next set of 

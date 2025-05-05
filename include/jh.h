@@ -2,6 +2,7 @@
 #define __JH_H
 
 #include <vector>
+#include <utility>
 #include "em.h"
 #include "ke.h"
 
@@ -21,6 +22,7 @@ public:
   bool fisCon(std::vector<neutron>);
   void setDims(float a_x, float a_y, int grains);
   void printFissionSites();
+  void MCstats::normalizeSites();
   state nextState();
   ~MCstats();
 
@@ -29,6 +31,9 @@ private:
   int m_row;
   int m_col;
   int m_grains;
+  int m_totalParts=0;
+  std::vector<double> normSites;
+  std::vector<std::pair <int,int>> locations;
 
 };
 
