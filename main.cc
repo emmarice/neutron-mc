@@ -1,4 +1,6 @@
 // main program?
+#include "include/baseClasses.h"
+#include "src/baseClasses.cpp"
 #include "include/jh.h"
 #include "src/jh.cpp"
 #include "include/em.h"
@@ -16,6 +18,11 @@
 */
 int main(int argc, char** argv)
 {
+  if(argc!=3)
+  {
+    std::cout<<"invalid arg count"<<std::endl;
+    return 1;
+  }
   int numpart = atoi(argv[1]);
   float xdim = atof(argv[2]);
   float ydim = atof(argv[3]);
@@ -34,19 +41,21 @@ int main(int argc, char** argv)
   // randomGen* randy = new randomGen(seed);
 
   // begin geometry pu/fe only
-  mat->addShapeFromFile("./geos/twoCubes.txt");
+  mat->addShapeFromFile("../neutron-mc/geos/twoCubes.txt");
   // mat->addShapeFromFile("./geos/incased.txt");
   // put fe and c
   // mat->addShapeFromFile("./geos/checkers.txt");
 
   // add cx data
-  mat->addMaterial("fe",{{"abs","./crossSecs/ironAbs.csv"},{"tot","./crossSecs/ironTot.csv"}});
-  mat->addMaterial("pu",{{"fis","./crossSecs/plutoniumFis.csv"},{"abs","./crossSecs/plutoniumAbs.csv"},{"tot","./crossSecs/plutoniumTot.csv"}});
-  mat->addMaterial("c",{{"abs","./crossSecs/carbonAbs.csv"},{"tot","./crossSecs/carbonTot.csv"}});
+  mat->addMaterial("fe",{{"abs","../neutron-mc/crossSecs/ironAbs.csv"},{"tot","../neutron-mc/crossSecs/ironTot.csv"}});
+  mat->addMaterial("pu",{{"fis","../neutron-mc/crossSecs/plutoniumFis.csv"},{"abs","../neutron-mc/crossSecs/plutoniumAbs.csv"},{"tot","../neutron-mc/crossSecs/plutoniumTot.csv"}});
+  mat->addMaterial("c",{{"abs","../neutron-mc/crossSecs/carbonAbs.csv"},{"tot","../neutron-mc/crossSecs/carbonTot.csv"}});
   mat->addNu("pu",2.8836);
   mat->addDensity("pu",19.86,239);
   mat->addDensity("fe",7.874,56);
   // mat->addDensity("c",2.266,12); //graphite
+
+  // end material initalization
 
 
   return 0;
