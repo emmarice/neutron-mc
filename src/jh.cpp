@@ -103,6 +103,7 @@ double MCstats::sampleEnergy(randomGen * a_rand){
   double maxE=15.0;
   double maxP=0.358206;
   bool reject=true;
+  double en;
   while(reject)
   {
     double eta1=a_rand->getNormRand();
@@ -112,7 +113,7 @@ double MCstats::sampleEnergy(randomGen * a_rand){
     if(eta2*maxP<=p)
     {
       reject=false;
-      double en =xx/1000; //convert to kev
+      en =xx/1000; //convert to kev
     }
   }
  return en;
@@ -123,24 +124,25 @@ void MCstats::normalizeSites(){
     for (int col =0; col < m_col; col++){
       m_normSites.push_back(m_fission_sites[row][col]/m_totalParts);
       m_locations.push_back(std::make_pair(row,col));
+    }
+  }
 }
 
-state MCstats::nextState(int a_numParticles){
+state MCstats::nextState(int a_numParticles,randomGen * rgen){
   state next; 
-  rangomGen * rgen;
   int numN = 0;
-  double runningTot = 0.0
+  double runningTot = 0.0;
   normalizeSites();
   for (int i = 0; i<a_numParticles; i++){
-    double rando = rgen->getNormRand()
+    double rando = rgen->getNormRand();
     for (int j = 0; j<m_normSites.size(); j++){
       runningTot+=m_normSites[j];
       if (rando <= runningTot){
         neutron n;
-        double xpos= (m_locations[j].first() + rgen->getNormRand())/m_grains;
-        double ypos= (m_locations[j].second() + rgen->getNormRand())/m_grains;
+        double xpos= (m_locations[j].first + rgen->getNormRand())/m_grains;
+        double ypos= (m_locations[j].second + rgen->getNormRand())/m_grains;
         n.setE(sampleEnergy(rgen));
-        n.setAngle(rgen->getNormRand()*2*std::numbers::pi);
+        n.setAngle(rgen->getNormRand()*4*std::acos(0.0));
         n.setPos(xpos,ypos);
         next.addNeutron(n);
         break;

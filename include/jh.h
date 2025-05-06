@@ -4,6 +4,7 @@
 #include <vector>
 #include <utility>
 #include "em.h"
+#include "baseClasses.h"
 #include "ke.h"
 
 class MCstats
@@ -22,18 +23,19 @@ public:
   bool fisCon(std::vector<neutron>);
   void setDims(float a_x, float a_y, int grains);
   void printFissionSites();
-  void MCstats::normalizeSites();
+  void normalizeSites();
   state nextState();
   ~MCstats();
-
+  double sampleEnergy(randomGen * a_rand);
+  state nextState(int a_numParticles,randomGen * rgen);
 
 private:
   int m_row;
   int m_col;
   int m_grains;
   int m_totalParts=0;
-  std::vector<double> normSites;
-  std::vector<std::pair <int,int>> locations;
+  std::vector<double> m_normSites;
+  std::vector<std::pair <int,int>> m_locations;
 
 };
 
