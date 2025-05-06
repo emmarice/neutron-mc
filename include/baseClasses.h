@@ -22,7 +22,7 @@ private:
   double m_weight;
   bool m_col; // did it colide
   std::string m_mat; //material
-  std::vector<pair<std::string,double>> m_pathEst;
+  std::vector<std::pair<std::string,double>> m_pathEst;
 public:
   neutron();
   neutron(double a_en,double a_x,double a_y, double a_angle);
@@ -47,6 +47,7 @@ int getDeath();
 void setMat(std::string a_mat);
 void setCol(bool a_col);
 std::string getMat();
+std::vector<std::pair<std::string,double>> getPathEst();
 bool getCol();
 bool getIsDead();
 

@@ -86,10 +86,14 @@ void neutron::setCol(bool a_col)
 {
   m_col=a_col;
 }
-// std::string neutron::getMat()
-// {
-//   return m_mat;
-// }
+std::string neutron::getMat()
+{
+  return m_mat;
+}
+std::vector<std::pair<std::string,double>> neutron::getPathEst()
+{
+  return m_pathEst;
+}
 bool neutron::getCol()
 {
   return m_col;

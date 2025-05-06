@@ -342,6 +342,18 @@ tallies::tallies(state a_state,materialManager* a_mats)
       en+=nu.getE();
       alive+=1;
     }
+    std::vector<pair<std::string,double>> paths=nu.getPathEst();
+    for (pair<std::string,double> path : paths)
+        {
+          std::string matP=path.first;
+          if (crossX[matP].find("fis") == crossX[matP].end())
+            {}
+          else
+          {
+            double cxP=a_mats->getCX(matP,"fis",nu.getE());
+            m_pathEst+=path.second*cxP*nuBar[matP];//*nu.getWeight();
+          }
+        }
     std::string mat=nu.getMat();
     if(mat!="void")
     {
@@ -349,7 +361,6 @@ tallies::tallies(state a_state,materialManager* a_mats)
       {}
       else
       {
-        double dis=nu.getStep();
         double cxt=a_mats->getCXTot(mat,nu.getE());
         double cxf=a_mats->getCX(mat,"fis",nu.getE());
         double cxa=a_mats->getCX(mat,"abs",nu.getE());
@@ -360,7 +371,6 @@ tallies::tallies(state a_state,materialManager* a_mats)
         {
           m_colEst+=cxFis/cxTot*nuBar[mat]; //*nu.getWeight();
         }
-        m_pathEst+=dis*cxFis*nuBar[mat];//*nu.getWeight();
         if(death==1||death==2)
         {
           m_absEst+=nuBar[mat]*cxFis/(cxFis+cxAbs);//*nu.getWeight();

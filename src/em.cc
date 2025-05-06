@@ -18,7 +18,7 @@ void stepper::setState(state a_state)
   m_particles=m_state.getParticles();
 }
 
-void stepper::step( materialManager * mat, randomGen * rgen) // steps forward in time, changing the vector of neutrons for the state
+std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen) // steps forward in time, changing the vector of neutrons for the state
 {
   m_particles_count = m_state.getNumParticles(); //length of m_neutrons
   // if m_neutrons is empty print a warning?
@@ -43,10 +43,10 @@ void stepper::step( materialManager * mat, randomGen * rgen) // steps forward in
         if (mtype != newmtype)
         {
           // move to boundary
-          std::pair<double,double> oldP = m_particles[i].getPos()
+          std::pair<double,double> oldP = m_particles[i].getPos();
           m_particles[i].setPos(mat->findBound(m_particles[i],distance));
-          std::pair<double,double> newP = m_particles[i].getPos()
-          double forceD std::pow((std::pow(oldP.first-newP.first),2)+(std::pow(oldP.second-newP.second),2),1/2);
+          std::pair<double,double> newP = m_particles[i].getPos();
+          double forceD = std::pow(std::pow(oldP.first-newP.first,2)+std::pow(oldP.second-newP.second,2),1/2);
           m_particles[i].addStep(mtype,forceD); //needed to track each step for estimator 
           // update material
           mtype = mat->matFinder(m_particles[i].getPos());
