@@ -18,7 +18,7 @@
 */
 int main(int argc, char** argv)
 {
-  if(argc!=3)
+  if(argc!=5)
   {
     std::cout<<"invalid arg count"<<std::endl;
     return 1;
