@@ -92,4 +92,6 @@ void stepper::step( materialManager * mat, randomGen * rgen) // steps forward in
       } // end while alive
     } // end for each neutron
     // end of one cycle == end of step
+
+  return m_particles;
 }// end of state::step

@@ -33,7 +33,7 @@ public:
   stepper();
   stepper(state a_state);
   void setState(state a_state);
-  void step(materialManager * mat, randomGen * rgen);
+  std::vector<neutron> step(materialManager * mat, randomGen * rgen);
 };
 // sampling functions
 
