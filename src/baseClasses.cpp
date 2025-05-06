@@ -61,7 +61,13 @@ void neutron::stepNewPos(double a_dist)
 {
   m_x=m_x+std::cos(m_theta)*a_dist;
   m_y=m_y+std::sin(m_theta)*a_dist;
-  m_step=a_dist;
+  pair<std::string,double> outp={m_mat,a_dist};
+  m_pathEst.push_back(outp);
+}
+void neutron::addStep(std::string a_mat, double a_dist)
+{
+  pair<std::string,double> outp={a_mat,a_dist};
+  m_pathEst.push_back(outp);
 }
 void neutron::killN(int a_type)
 {
@@ -80,10 +86,10 @@ void neutron::setCol(bool a_col)
 {
   m_col=a_col;
 }
-std::string neutron::getMat()
-{
-  return m_mat;
-}
+// std::string neutron::getMat()
+// {
+//   return m_mat;
+// }
 bool neutron::getCol()
 {
   return m_col;

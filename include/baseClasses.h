@@ -22,7 +22,7 @@ private:
   double m_weight;
   bool m_col; // did it colide
   std::string m_mat; //material
-  double m_step;
+  std::vector<pair<std::string,double>> m_pathEst;
 public:
   neutron();
   neutron(double a_en,double a_x,double a_y, double a_angle);
@@ -41,6 +41,7 @@ double getAngle();
 void setAngle(double a_angle);
 std::pair<double,double> getSteppedPos(double a_dist);
 void stepNewPos(double a_dist);
+void addStep(std::string a_mat, double a_dist);
 void killN(int a_type);
 int getDeath();
 void setMat(std::string a_mat);
