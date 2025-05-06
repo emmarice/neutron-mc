@@ -65,7 +65,7 @@ std::pair<double,double> materialManager::findBound(neutron a_neutron, double a_
     double xHigh=m_geo[reg].second.first.second;
     double yLow=m_geo[reg].second.second.first;
     double yHigh=m_geo[reg].second.second.second;
-    if(newx>xLow && newx<xHigh && newy>yLow && newy<yHigh)
+    if(newx>=xLow && newx<xHigh && newy>=yLow && newy<yHigh)
     {
       xlb=xLow;
       xhb=xHigh;
@@ -92,12 +92,12 @@ std::pair<double,double> materialManager::findBound(neutron a_neutron, double a_
   if(yintHigh>ylb && yintHigh<yhb)
   {
     // right side
-    return {xhb,yintHigh};
+    return {xhb-1e-10,yintHigh};
   }
   if(xintLow>xlb && xintLow<xhb)
   {
     // bottom
-    return {xintLow,ylb};
+    return {xintLow,ylb-1e-10};
   }
   if(xintHigh>xlb && xintHigh<xhb)
   {
@@ -135,7 +135,7 @@ std::string materialManager::matFinder(double a_x, double a_y)
     double xHigh=m_geo[reg].second.first.second;
     double yLow=m_geo[reg].second.second.first;
     double yHigh=m_geo[reg].second.second.second;
-    if(a_x>xLow && a_x<xHigh && a_y>yLow && a_y<yHigh)
+    if(a_x>=xLow && a_x<xHigh && a_y>=yLow && a_y<yHigh)
     {
       return m_geo[reg].first;
     }
