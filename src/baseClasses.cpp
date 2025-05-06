@@ -98,10 +98,6 @@ bool neutron::getIsDead()
 {
   return m_isDead;
 }
-double neutron::getStep()
-{
-  return m_step;
-}
 state::state()
 {
   // nothing to do here

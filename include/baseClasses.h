@@ -48,7 +48,6 @@ void setMat(std::string a_mat);
 void setCol(bool a_col);
 std::string getMat();
 bool getCol();
-double getStep();
 bool getIsDead();
 
   

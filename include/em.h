@@ -1,7 +1,8 @@
 #ifndef __EM_H
 #define __EM_H
 
-// #include "ke.h"
+#include "ke.h"
+#include "baseClasses.h"
 #include <vector>
 #include <stdint.h>
 #include <stdio.h>
@@ -22,7 +23,18 @@ public:
 	~geometry();
 	
 };
-
+class stepper
+{
+private:
+  state m_state;
+  int m_particles_count;
+  std::vector<neutron> m_particles;
+public:
+  stepper();
+  stepper(state a_state);
+  void setState(state a_state);
+  void step(materialManager * mat, randomGen * rgen);
+};
 // sampling functions
 
 // source guess should be uniform distro in fissionable regions
