@@ -35,6 +35,7 @@ void stepper::step( materialManager * mat, randomGen * rgen) // steps forward in
       {
         // sample distance to interaction
         std::string mtype = mat->matFinder(m_particles[i].getPos());
+        m_particles[i].setMat(mtype);
         double distance = mat->getDist(mtype, m_particles[i].getE(),rgen->getNormRand());
         std::pair<double,double> newpos = m_particles[i].getSteppedPos(distance);
         std::string newmtype = mat->matFinder(newpos);
@@ -42,7 +43,11 @@ void stepper::step( materialManager * mat, randomGen * rgen) // steps forward in
         if (mtype != newmtype)
         {
           // move to boundary
+          std::pair<double,double> oldP = m_particles[i].getPos()
           m_particles[i].setPos(mat->findBound(m_particles[i],distance));
+          std::pair<double,double> newP = m_particles[i].getPos()
+          double forceD std::pow((std::pow(oldP.first-newP.first),2)+(std::pow(oldP.second-newP.second),2),1/2);
+          m_particles[i].addStep(mtype,forceD); //needed to track each step for estimator 
           // update material
           mtype = mat->matFinder(m_particles[i].getPos());
         }
