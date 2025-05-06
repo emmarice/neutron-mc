@@ -123,3 +123,8 @@ neutron::~neutron()
 {
   std::cout<< "Neutron deleted!"<< std::endl;
 } //end of neutron::~neutron
+
+state::~state()
+{
+  std::cout<<"state deleted"<<std::endl;
+}

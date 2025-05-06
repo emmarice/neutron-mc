@@ -14,20 +14,20 @@ set(HEADERS
       ${PROJECT_SOURCE_DIR}/include/ke.h
       ${PROJECT_SOURCE_DIR}/include/em.h
       ${PROJECT_SOURCE_DIR}/include/baseClasses.h
-      # ${PROJECT_SOURCE_DIR}/include/jh.h
+      ${PROJECT_SOURCE_DIR}/include/jh.h
       )
 
 set(SOURCES 
       ${PROJECT_SOURCE_DIR}/src/ke.cpp
       ${PROJECT_SOURCE_DIR}/src/em.cc
       ${PROJECT_SOURCE_DIR}/src/baseClasses.cpp
-      # ${PROJECT_SOURCE_DIR}/src/jh.cpp
+      ${PROJECT_SOURCE_DIR}/src/jh.cpp
     )
 
 file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/linkdef)
-# add_executable(main.exe 
-#                main.cc
-#                )
+add_executable(main.exe 
+               main.cc
+               )
 set(LINKDEF ${PROJECT_BINARY_DIR}/linkdef/LinkDef.h)
 set(LD_HEADER
 "#ifdef __CINT__
