@@ -100,7 +100,8 @@ class tallies
     int m_num;
   public:
     tallies();
-    tallies(state a_state, materialManager* a_mats); 
+    ~tallies();
+    tallies(state a_state, materialManager* a_mats, int a_fisnum,int a_fisNor); 
     double getAvEn();
     double getEscape();
     double getFis();
@@ -116,10 +117,15 @@ class reducedState
 {
   private:
     std::vector<tallies> m_reducedStates;
+    std::vector<double> m_ks;
+    std::vector<double> m_entropy;
   public:
     reducedState();
     void addReduced(tallies a_tally);
+    void addMC(double a_k, double a_ent);
     std::vector<tallies> getTallies();
+    std::vector<double> getK();
+    std::vector<double> getEnt();
 };
 
 #endif

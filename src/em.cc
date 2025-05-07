@@ -9,14 +9,18 @@ stepper::stepper()
 
 stepper::stepper(state a_state)
 {
+  // std::cout<<"load state"<<std::endl;
   m_state=a_state;
   m_particles=m_state.getParticles();
+  // std::cout<<"loaded"<<std::endl;
 }
 
 void stepper::setState(state a_state)
 {
+  // std::cout<< "setting"<<std::endl;
   m_state=a_state;
   m_particles=m_state.getParticles();
+  // std::cout<< "set"<<std::endl;
 }
 
 std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCstats* fish) // steps forward in time, changing the vector of neutrons for the state
@@ -31,6 +35,7 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCs
     // for each neutron in m_neutrons:
     for (int i = 0; i < m_particles_count; ++i)
     {
+      // std::cout<< i<<std::endl;
       //while alive:
       while (!m_particles[i].getIsDead())
       {
@@ -103,6 +108,6 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCs
       } // end while alive
     } // end for each neutron
     // end of one cycle == end of step
-
+    // std::cout<< "ended step"<<std::endl;
   return m_particles;
 }// end of state::step

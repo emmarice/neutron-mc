@@ -59,6 +59,7 @@ public:
   std::vector<neutron> m_particles;
 public:
   state();
+  state(std::vector<neutron> a_particles);
   ~state();
   std::vector<neutron> getParticles();
   int getNumParticles();

@@ -2,7 +2,7 @@
 #include <string.h>
 #include <iostream>
 #include <numbers>
-
+#include <cmath>
 /*
 MCstats::MCstats()
 {
@@ -23,6 +23,18 @@ MCstats::MCstats(float a_x, float a_y, int grains=1)
     m_grains = grains;
     std::cout<< "Number of cells per cm is: "<< m_grains <<std::endl;
     m_fission_sites=allocate(m_row,m_col);
+}
+
+void MCstats::clear()
+{
+  m_totalParts = 0;
+  m_normSites.clear();
+  m_locations.clear();
+  for (int row =0; row<m_row; row++)
+  {
+  // Have to set cols*4 since each float is 4 bytes
+    memset(m_fission_sites[row],0,m_col*4);
+  }
 }
 
 void MCstats::deallocate()
@@ -93,6 +105,19 @@ void MCstats::printFissionSites()
     std::cout<<"Row: " << row<<std::endl;
   }
 }
+void MCstats::saveFissionSites(std::string a_of)
+{
+  std::ofstream outFile(a_of);
+  std::cout<< "Trying to print"<< std::endl;
+  for (int row = 0; row< m_row; row++){
+    for (int col =0; col < m_col; col++)
+    {
+      outFile << m_fission_sites[row][col]<<" ";
+    }
+    outFile<<"\n";
+  }
+  outFile.close();
+}
 MCstats::~MCstats()
 {
     deallocate();
@@ -113,7 +138,7 @@ double MCstats::sampleEnergy(randomGen * a_rand){
     if(eta2*maxP<=p)
     {
       reject=false;
-      en =xx/1000; //convert to kev
+      en =xx*1000; //convert to kev
     }
   }
  return en;
@@ -129,15 +154,19 @@ void MCstats::normalizeSites(){
 }
 
 state MCstats::nextState(int a_numParticles,randomGen * rgen){
+  // std::cout<<"next"<<std::endl;
   state next; 
   int numN = 0;
   double runningTot = 0.0;
   normalizeSites();
-  for (int i = 0; i<a_numParticles; i++){
+  for (int i = 0; i<a_numParticles; i++)
+  {
     double rando = rgen->getNormRand();
-    for (int j = 0; j<m_normSites.size(); j++){
+    for (int j = 0; j<m_normSites.size(); j++)
+    {
       runningTot+=m_normSites[j];
-      if (rando <= runningTot){
+      if (rando <= runningTot)
+      {
         neutron n;
         double xpos= (m_locations[j].first + rgen->getNormRand())/m_grains;
         double ypos= (m_locations[j].second + rgen->getNormRand())/m_grains;
@@ -149,6 +178,8 @@ state MCstats::nextState(int a_numParticles,randomGen * rgen){
       }
     }
   }
+  // std::cout<<next.getNumParticles()<<std::endl;
+  // std::cout<<next.getParticles()[35].getE()<<std::endl;
   return next;
 }
 
@@ -160,7 +191,7 @@ double MCstats::getEntropy(){
   double entropy=0.0;
   for (int i = 0; i<m_normSites.size(); i++){
     if (m_normSites[i] >0.0){
-      entropy += -1*m_normSites[i]*std::log(m_normSites);
+      entropy += -1*m_normSites[i]*std::log(m_normSites[i]);
     }
   }
   return entropy;
@@ -175,3 +206,22 @@ double MCstats::getEntropy(){
 }
 
 */
+std::pair<double, double> MCstats::getStats(std::vector<double> a_vec)
+{
+  double mu=0;
+  double var=0;
+  int n=0;
+  for(double val : a_vec)
+  {
+    n++;
+    mu+=val;
+  }
+  mu=mu/n;
+  for(double val : a_vec)
+  {
+    var+=std::pow(val-mu,2);
+  }
+  var=std::pow(var/(n-1),1/2);
+  std::pair<double, double> outp = {mu,var};
+  return outp;
+}

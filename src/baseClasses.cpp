@@ -106,6 +106,10 @@ state::state()
 {
   // nothing to do here
 }
+state::state(std::vector<neutron> a_particles)
+{
+  m_particles=a_particles;
+}
 std::vector<neutron> state::getParticles()
 {
   return m_particles;
@@ -121,10 +125,10 @@ void state::addNeutron(neutron a_neut)
 
 neutron::~neutron()
 {
-  std::cout<< "Neutron deleted!"<< std::endl;
+  // std::cout<< "Neutron deleted!"<< std::endl;
 } //end of neutron::~neutron
 
 state::~state()
 {
-  std::cout<<"state deleted"<<std::endl;
+  // std::cout<<"state deleted"<<std::endl;
 }

@@ -76,7 +76,7 @@ std::pair<double,double> materialManager::findBound(neutron a_neutron, double a_
   }
   if(xlb==-100)
   {
-    std::cout<<"void"<<std::endl;
+    // std::cout<<"void"<<std::endl;
     return {-100,-100};
   }
   // solve function 
@@ -305,11 +305,18 @@ tallies::tallies()
 {
   // nothing here
 }
-tallies::tallies(state a_state,materialManager* a_mats)
+tallies::~tallies()
 {
+  // nothing here
+}
+tallies::tallies(state a_state,materialManager* a_mats,int a_fisnum,int a_fisNor)
+{
+  double wieght=double(a_fisnum)/a_fisNor;
+  // std::cout<<wieght<<std::endl;
   m_colEst=0;
   m_absEst=0;
   m_pathEst=0;
+
   m_num=a_state.getNumParticles();
   std::map<std::string,std::map<std::string,std::vector<std::pair<double,double>>>> crossX=a_mats->getCXS();
   std::map<std::string,double> matDens=a_mats->getDens();
@@ -351,7 +358,8 @@ tallies::tallies(state a_state,materialManager* a_mats)
           else
           {
             double cxP=a_mats->getCX(matP,"fis",nu.getE());
-            m_pathEst+=path.second*cxP*nuBar[matP];//*nu.getWeight();
+            // std::cout<<"cx:"<<cxP<<" path:"<<path.second<<" wieght"<<wieght<<" nu"<<nuBar[matP]<<std::endl;
+            m_pathEst+=path.second*cxP*nuBar[matP]*wieght;//*nu.getWeight();
           }
         }
     std::string mat=nu.getMat();
@@ -369,11 +377,11 @@ tallies::tallies(state a_state,materialManager* a_mats)
         double cxAbs=cxa*6.022E9*matDens[mat];
         if(nu.getCol())
         {
-          m_colEst+=cxFis/cxTot*nuBar[mat]; //*nu.getWeight();
+          m_colEst+=cxFis/cxTot*nuBar[mat]*wieght; //*nu.getWeight();
         }
         if(death==1||death==2)
         {
-          m_absEst+=nuBar[mat]*cxFis/(cxFis+cxAbs);//*nu.getWeight();
+          m_absEst+=nuBar[mat]*cxFis/(cxFis+cxAbs)*wieght;//*nu.getWeight();
         }
       }
     }
@@ -468,3 +476,16 @@ double randomGen::getNormRand()
   return nor;
 }
 
+void reducedState::addMC(double a_k, double a_ent)
+{
+  m_ks.push_back(a_k);
+  m_entropy.push_back(a_ent);
+}
+std::vector<double> reducedState::getK()
+{
+  return m_ks;
+}
+std::vector<double> reducedState::getEnt()
+{
+  return m_entropy;
+}

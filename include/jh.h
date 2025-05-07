@@ -3,7 +3,11 @@
 
 #include <vector>
 #include <utility>
-#include "em.h"
+#include <cmath>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+// #include "em.h"
 #include "baseClasses.h"
 #include "ke.h"
 
@@ -30,6 +34,9 @@ public:
   double sampleEnergy(randomGen * a_rand);
   state nextState(int a_numParticles,randomGen * rgen);
   double getEntropy();
+  void clear();
+  std::pair<double, double> getStats(std::vector<double> a_vec);
+  void saveFissionSites(std::string a_of);
 
 private:
   int m_row;
