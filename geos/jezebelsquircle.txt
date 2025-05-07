@@ -1,0 +1,5 @@
+jezsquirclelowest,pu,3.648,0,9.121,1.824
+jezsquirclelower,pu,1.824,1.824,10.945,3.648
+jezsquirclemid,pu,0,3.648,12.77,9.121
+jezsquirclehigher,pu,1.824,9.121,10.945,10.945
+jezsquirclehighest,pu,3.648,10.945,9.121,12.77

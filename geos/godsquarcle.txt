@@ -1,0 +1,3 @@
+godsquarclelow,u,3.496,0,13.985,3.496
+godsquarclemid,u,0,3.496,17.482,13.985
+godsquarclehigh,u,3.496,13.985,13.985,17.482
