@@ -18,7 +18,7 @@ void stepper::setState(state a_state)
   m_particles=m_state.getParticles();
 }
 
-std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen) // steps forward in time, changing the vector of neutrons for the state
+std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCstats* fish) // steps forward in time, changing the vector of neutrons for the state
 {
   m_particles_count = m_state.getNumParticles(); //length of m_neutrons
   // if m_neutrons is empty print a warning?
@@ -40,6 +40,11 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen) // 
         std::pair<double,double> newpos = m_particles[i].getSteppedPos(distance);
         std::string newmtype = mat->matFinder(newpos);
         // if boundary is being crossed:
+        if(newmtype == "void")
+        {
+          m_particles[i].stepNewPos(distance);
+          mtype="void";
+        }
         if (mtype != newmtype)
         {
           // move to boundary
@@ -80,7 +85,7 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen) // 
             // kill neutron
             m_particles[i].killN(2);
             // sample number of neutrons produced & save for next gen
-            // fish->setFissionSite(m_particles[i], getFisInfo(mtype, rgen->getNormRand(),rgen->getNormRand()));
+            fish->setFissionSite(m_particles[i], mat->getFisInfo(mtype, rgen->getNormRand()));
           }
           // if scattered:
           else if (rx == "scat")

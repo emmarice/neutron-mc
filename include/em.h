@@ -2,6 +2,7 @@
 #define __EM_H
 
 #include "ke.h"
+#include "jh.h"
 #include "baseClasses.h"
 #include <vector>
 #include <stdint.h>
@@ -33,7 +34,7 @@ public:
   stepper();
   stepper(state a_state);
   void setState(state a_state);
-  std::vector<neutron> step(materialManager * mat, randomGen * rgen);
+  std::vector<neutron> step(materialManager * mat, randomGen * rgen, MCstats * fish);
 };
 // sampling functions
 
