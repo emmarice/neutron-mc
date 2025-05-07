@@ -158,8 +158,10 @@ int MCstats::getTotalFissions(){
 
 double MCstats::getEntropy(){
   double entropy=0.0;
-  for (int i = 0; i<m_normSites.size(), i++){
-    entropy += m_normSites[i]*std::log(m_normSites)
+  for (int i = 0; i<m_normSites.size(); i++){
+    if (m_normSites[i] >0.0){
+      entropy += -1*m_normSites[i]*std::log(m_normSites);
+    }
   }
   return entropy;
 }
