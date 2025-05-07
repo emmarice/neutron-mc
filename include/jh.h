@@ -24,10 +24,12 @@ public:
   void setDims(float a_x, float a_y, int grains);
   void printFissionSites();
   void normalizeSites();
+  int getTotalFissions();
   state nextState();
   ~MCstats();
   double sampleEnergy(randomGen * a_rand);
   state nextState(int a_numParticles,randomGen * rgen);
+  double getEntropy();
 
 private:
   int m_row;

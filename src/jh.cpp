@@ -151,6 +151,18 @@ state MCstats::nextState(int a_numParticles,randomGen * rgen){
   }
   return next;
 }
+
+int MCstats::getTotalFissions(){
+  return m_totalParts;
+}
+
+double MCstats::getEntropy(){
+  double entropy=0.0;
+  for (int i = 0; i<m_normSites.size(), i++){
+    entropy += m_normSites[i]*std::log(m_normSites)
+  }
+  return entropy;
+}
   /* Create a running total of the amount of fission sites in the next generation
    The probability for a neutron to be born in the next set of 
    fission sites is the normalized discretized PDF of the current sites
