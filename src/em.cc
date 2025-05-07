@@ -2,15 +2,16 @@
 /**************************************************************/
 /* em class functions *****************************************/
 /**************************************************************/
-  stepper::stepper()
-  {
+stepper::stepper()
+{
 
-  }
-  stepper::stepper(state a_state)
-  {
-    m_state=a_state;
-    m_particles=m_state.getParticles();
-  }
+}
+
+stepper::stepper(state a_state)
+{
+  m_state=a_state;
+  m_particles=m_state.getParticles();
+}
 
 void stepper::setState(state a_state)
 {

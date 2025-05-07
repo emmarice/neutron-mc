@@ -1,0 +1,5 @@
+godsquirclelowest,u,4.994,0,12.487,2.497
+godsquirclelower,u,2.497,2.497,14.984,4.994
+godsquirclemid,u,0,4.994,17.482,12.487
+godsquirclehigher,u,2.497,12.487,14.984,14.984
+godsquirclehighest,u,4.994,14.984,12.487,17.482
