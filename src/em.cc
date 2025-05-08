@@ -57,7 +57,7 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCs
           std::pair<double,double> oldP = m_particles[i].getPos();
           m_particles[i].setPos(mat->findBound(m_particles[i],distance));
           std::pair<double,double> newP = m_particles[i].getPos();
-          double forceD = std::pow(std::pow(oldP.first-newP.first,2)+std::pow(oldP.second-newP.second,2),1/2);
+          double forceD = std::pow(std::pow(oldP.first-newP.first,2)+std::pow(oldP.second-newP.second,2),0.5);
           m_particles[i].addStep(mtype,forceD); //needed to track each step for estimator 
           // update material
           mtype = mat->matFinder(m_particles[i].getPos());
@@ -74,38 +74,40 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCs
           m_particles[i].killN(0);
           // tally?
         }  
-        else // some type of collision will happen
+        else if(mtype==newmtype) // some type of collision will happen
         {
-          m_particles[i].addCol(mtype,m_particles[i].getE());
-          // sample reaction type
-          std::string rx = mat->getReactionType(rgen->getNormRand(), mtype, m_particles[i].getE());
-          // if absorbed:
-          if (rx == "abs")
           {
-            // kill neutron
-            m_particles[i].killN(1);
-            m_particles[i].addAbs(mtype,m_particles[i].getE());
-            // tally?
-          }
-          // if fissioned:
-          else if (rx == "fis")
-          {
-            // kill neutron
-            m_particles[i].killN(2);
-            m_particles[i].addAbs(mtype,m_particles[i].getE());
-            // sample number of neutrons produced & save for next gen
-            fish->setFissionSite(m_particles[i], mat->getFisInfo(mtype, rgen->getNormRand()));
-          }
-          // if scattered:
-          else if (rx == "scat")
-          {
-            // sample new energy and angle
-            m_particles[i].setE(mat->getScatEn(m_particles[i].getE(), rgen->getNormRand(), mtype));
-            m_particles[i].setAngle(rgen->getNormRand()*4*std::acos(0.0));
-          }
-          else
-          {
-            std::cout << "the reaction type isn't matching abs, scatter, or fission. weird!" << std::endl;
+            m_particles[i].addCol(mtype,m_particles[i].getE());
+            // sample reaction type
+            std::string rx = mat->getReactionType(rgen->getNormRand(), mtype, m_particles[i].getE());
+            // if absorbed:
+            if (rx == "abs")
+            {
+              // kill neutron
+              m_particles[i].killN(1);
+              m_particles[i].addAbs(mtype,m_particles[i].getE());
+              // tally?
+            }
+            // if fissioned:
+            else if (rx == "fis")
+            {
+              // kill neutron
+              m_particles[i].killN(2);
+              m_particles[i].addAbs(mtype,m_particles[i].getE());
+              // sample number of neutrons produced & save for next gen
+              fish->setFissionSite(m_particles[i], mat->getFisInfo(mtype, rgen->getNormRand()));
+            }
+            // if scattered:
+            else if (rx == "scat")
+            {
+              // sample new energy and angle
+              m_particles[i].setE(mat->getScatEn(m_particles[i].getE(), rgen->getNormRand(), mtype));
+              m_particles[i].setAngle(rgen->getNormRand()*4*std::acos(0.0));
+            }
+            else
+            {
+              std::cout << "the reaction type isn't matching abs, scatter, or fission. weird!" << std::endl;
+            }
           }
         } // end collisions   
       } // end while alive

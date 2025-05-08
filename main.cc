@@ -31,13 +31,14 @@ int main(int argc, char** argv)
   // begin material intialization
   materialManager* mat = new materialManager();
   // randomGen* randy = new randomGen();
-  randomGen* randy = new randomGen(86753);
+  randomGen* randy = new randomGen(15681);
 
   // begin geometry pu/fe only
-  std::pair<double,double> dims = mat->addShapeFromFile("../neutron-mc/geos/twoCubes.txt");
-  // std::pair<double,double> dims = mat->addShapeFromFile("./geos/incased.txt");
+  // std::pair<double,double> dims = mat->addShapeFromFile("../neutron-mc/geos/twoCubes.txt");
+   std::pair<double,double> dims = mat->addShapeFromFile("../neutron-mc/geos/jezebelsquircle.txt");
+  // std::pair<double,double> dims = mat->addShapeFromFile("../neutron-mc/geos/incased.txt");
   // put fe and c
-  // std::pair<double,double> dims = mat->addShapeFromFile("./geos/checkers.txt");
+  // std::pair<double,double> dims = mat->addShapeFromFile("../neutron-mc/geos/checkers.txt");
 
   // add cx data
   mat->addMaterial("fe",{{"abs","../neutron-mc/crossSecs/ironAbs.csv"},{"tot","../neutron-mc/crossSecs/ironTot.csv"}});
@@ -92,12 +93,13 @@ int main(int argc, char** argv)
       tallies tally = tallies(curState, mat,fisNum,numpart);
       tallied.addReduced(tally);
       tally.~tallies();
+      // std::cout<<double(fisNum)/oldFis<<std::endl;
       tallied.addMC(double(fisNum)/oldFis,entNum);
       if(j%5==0)
       {
         ksHist=tallied.getK();
         ksize=ksHist.size();
-        if(std::pow((ksHist[ksize-1]-ksHist[ksize-2]),2)/std::pow(ksHist[ksize-2],2)<epk)
+        if(std::pow((ksHist[ksize-1]-ksHist[ksize-2]),2)/std::pow(ksHist[ksize-2],2)<epk||kcon)
         {
           if(!kcon)
           {
@@ -153,13 +155,13 @@ int main(int argc, char** argv)
         if(oldvalP!=0&&oldvalA!=0&&oldvalC!=0)
         {
           pathEst.push_back(tal.getPathEst()/oldvalP);
-          absEst.push_back(tal.getPathEst()/oldvalA);
-          colEst.push_back(tal.getPathEst()/oldvalC);
+          absEst.push_back(tal.getAbsEst()/oldvalA);
+          colEst.push_back(tal.getColEst()/oldvalC);
           if(i>kone)
           {
             pathEstCon.push_back(tal.getPathEst()/oldvalP);
-            absEstCon.push_back(tal.getPathEst()/oldvalA);
-            colEstCon.push_back(tal.getPathEst()/oldvalC);
+            absEstCon.push_back(tal.getAbsEst()/oldvalA);
+            colEstCon.push_back(tal.getColEst()/oldvalC);
           }
         }
         else
@@ -179,7 +181,8 @@ int main(int argc, char** argv)
     std::pair<double, double> absstat=fs->getStats(absEstCon);
     std::pair<double, double> colstat=fs->getStats(colEstCon);
   // end loop and output values
-    std::ofstream outFile("TwoCubesMain.txt");
+
+    std::ofstream outFile("chekerMain.txt");
     outFile<<std::setw(80);
     outFile<<std::setfill(' ');
     outFile<<"Main out Put\n";
@@ -189,7 +192,7 @@ int main(int argc, char** argv)
     <<pathstat.second<<" "<<absstat.first<<" "<<absstat.second<<" "<<colstat.first<<" "<<colstat.second<<" ";
     outFile.close();
     std::vector<double> entHist = tallied.getEnt();
-    std::ofstream plotFile("TwoCubesData.dat");
+    std::ofstream plotFile("checkerData.dat");
     plotFile<<std::setw(80);
     plotFile<<std::setfill(' ');
     plotFile<<"cycle "<<"k "<<"Ent "<<"path "<<"abs "<<"col "<<"\n";
@@ -199,7 +202,7 @@ int main(int argc, char** argv)
       <<pathEst[i]<<" "<<absEst[i]<<" "<<colEst[i]<<"\n";
     }
     plotFile.close();
-    fs->saveFissionSites("twoCubesFis.dat");
+    fs->saveFissionSites("checkerFis.dat");
 
   return 0;
 }

@@ -9,17 +9,19 @@ MCstats::MCstats()
     m_fission_sites = allocate(0,0);
 }
 */
-void MCstats::setDims(float a_x, float a_y, int grains)
+void MCstats::setDims(double a_x, double a_y, int grains)
 {
   m_row = (int)a_x*grains;
   m_col = (int)a_y*grains;
   m_grains = grains;
 }
 
-MCstats::MCstats(float a_x, float a_y, int grains=1)
+MCstats::MCstats(double a_x, double a_y, int grains=1)
 {
     m_row = (int)a_x*grains;
     m_col = (int)a_y*grains;
+    std::cout << "max Y is: " <<a_y << std::endl;
+    std::cout << "max collumn is: " <<m_col << std::endl;
     m_grains = grains;
     std::cout<< "Number of cells per cm is: "<< m_grains <<std::endl;
     m_fission_sites=allocate(m_row,m_col);
@@ -32,7 +34,7 @@ void MCstats::clear()
   m_locations.clear();
   for (int row =0; row<m_row; row++)
   {
-  // Have to set cols*4 since each float is 4 bytes
+  // Have to set cols*4 since each double is 4 bytes
     memset(m_fission_sites[row],0,m_col*4);
   }
 }
@@ -45,27 +47,27 @@ void MCstats::deallocate()
     delete [] m_fission_sites;
 }
 
-float ** MCstats::allocate(int rows, int cols)
+double ** MCstats::allocate(int rows, int cols)
 {
     int r =  rows;
     int c = cols;
 
-    float ** new_sites=  new float*[rows];
+    double ** new_sites=  new double*[rows];
     for (int row =0; row<r; row++){
-      new_sites[row]= new float[cols];
-      // Have to set cols*4 since each float is 4 bytes
+      new_sites[row]= new double[cols];
+      // Have to set cols*4 since each double is 4 bytes
       memset(new_sites[row],0,cols*4);
     }
     return new_sites;
 }
 
-float * MCstats::getRow(int row)
+double * MCstats::getRow(int row)
 {
   if (row > m_row){
     std::cerr <<" ERROR: The row at index " <<row<< " is out of bounds"<<std::endl;
     return NULL;
   } else {
-    float * rowStart = m_fission_sites[row];
+    double * rowStart = m_fission_sites[row];
     return rowStart;
   }
 
@@ -75,7 +77,9 @@ void MCstats::setFissionSite(neutron a_neutron)
 {
   int xloc = (int)a_neutron.getPos().first*m_grains;
   int yloc = (int)a_neutron.getPos().second*m_grains;
-  if (yloc > m_col){
+  if (yloc > m_col)
+  {
+    std::cout <<" ERROR: The value of max Y is " <<m_col <<std::endl;
     std::cerr <<" ERROR: The column at index " <<yloc<< " is out of bounds"<<std::endl;
   } else {
     m_fission_sites[xloc][yloc] +=1.0;

@@ -87,22 +87,22 @@ std::pair<double,double> materialManager::findBound(neutron a_neutron, double a_
   if(yintLow>ylb && yintLow<yhb)
   {
     // left side
-    return {xlb,yintLow};
+    return {xlb+1e-8,yintLow};
   }
   if(yintHigh>ylb && yintHigh<yhb)
   {
     // right side
-    return {xhb-1e-10,yintHigh};
+    return {xhb-1e-8,yintHigh};
   }
   if(xintLow>xlb && xintLow<xhb)
   {
     // bottom
-    return {xintLow,ylb-1e-10};
+    return {xintLow,ylb-1e-8};
   }
   if(xintHigh>xlb && xintHigh<xhb)
   {
     // top
-    return {xintHigh,yhb};
+    return {xintHigh+1e-8,yhb};
   }
   else
   {
@@ -311,7 +311,8 @@ tallies::~tallies()
 }
 tallies::tallies(state a_state,materialManager* a_mats,int a_fisnum,int a_fisNor)
 {
-  double wieght=double(a_fisnum)/a_fisNor;
+  double wieght=1.0/a_fisNor;
+  // double wieght=1.0;
   // std::cout<<wieght<<std::endl;
   m_colEst=0;
   m_absEst=0;
