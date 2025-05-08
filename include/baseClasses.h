@@ -23,6 +23,8 @@ private:
   bool m_col; // did it colide
   std::string m_mat; //material
   std::vector<std::pair<std::string,double>> m_pathEst;
+  std::vector<std::pair<std::string,double>> m_cols;
+  std::vector<std::pair<std::string,double>> m_abs;
 public:
   neutron();
   neutron(double a_en,double a_x,double a_y, double a_angle);
@@ -50,7 +52,10 @@ std::string getMat();
 std::vector<std::pair<std::string,double>> getPathEst();
 bool getCol();
 bool getIsDead();
-
+void addCol(std::string a_mat, double a_en);
+void addAbs(std::string a_mat, double a_en);
+std::vector<std::pair<std::string,double>> getAbs();
+std::vector<std::pair<std::string,double>> getCols();
   
 };
 class state

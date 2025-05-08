@@ -76,6 +76,7 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCs
         }  
         else // some type of collision will happen
         {
+          m_particles[i].addCol(mtype,m_particles[i].getE());
           // sample reaction type
           std::string rx = mat->getReactionType(rgen->getNormRand(), mtype, m_particles[i].getE());
           // if absorbed:
@@ -83,6 +84,7 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCs
           {
             // kill neutron
             m_particles[i].killN(1);
+            m_particles[i].addAbs(mtype,m_particles[i].getE());
             // tally?
           }
           // if fissioned:
@@ -90,6 +92,7 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCs
           {
             // kill neutron
             m_particles[i].killN(2);
+            m_particles[i].addAbs(mtype,m_particles[i].getE());
             // sample number of neutrons produced & save for next gen
             fish->setFissionSite(m_particles[i], mat->getFisInfo(mtype, rgen->getNormRand()));
           }

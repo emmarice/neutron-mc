@@ -27,7 +27,7 @@ int main(int argc, char** argv)
   }
   double epk=0.0005;
   int burn = 50;
-  int active = 100;
+  int active = 105;
   // begin material intialization
   materialManager* mat = new materialManager();
   // randomGen* randy = new randomGen();
@@ -86,7 +86,6 @@ int main(int argc, char** argv)
     stepping.setState(curState);
     std::vector<neutron> stepped = stepping.step(mat, randy,fs);
     fisNum=fs->getTotalFissions();
-    entNum=fs->getEntropy();
     state curState = state(stepped);
     if(j>burn)
     {
@@ -112,6 +111,7 @@ int main(int argc, char** argv)
       }
     }
     curState=fs->nextState(numpart,randy);
+    entNum=fs->getEntropy();
     oldFis=fisNum;
     
     
@@ -144,6 +144,9 @@ int main(int argc, char** argv)
         oldvalA=tal.getAbsEst();
         oldvalC=tal.getColEst();
         skip=false;
+        std::cout<<oldvalP<<std::endl;
+        std::cout<<oldvalA<<std::endl;
+        std::cout<<oldvalC<<std::endl;
       }
       else
       {
@@ -162,7 +165,7 @@ int main(int argc, char** argv)
         else
         {
           std::cout<<"things done did broke"<<std::endl;
-          break;
+          skip=true;
         }
         oldvalP=tal.getPathEst();
         oldvalA=tal.getAbsEst();

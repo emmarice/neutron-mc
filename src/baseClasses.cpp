@@ -102,6 +102,24 @@ bool neutron::getIsDead()
 {
   return m_isDead;
 }
+void neutron::addCol(std::string a_mat, double a_en)
+{
+  std::pair<std::string,double> temp={a_mat,a_en};
+  m_cols.push_back(temp);
+}
+std::vector<std::pair<std::string,double>> neutron::getCols()
+{
+  return m_cols;
+}
+std::vector<std::pair<std::string,double>>  neutron::getAbs()
+{
+  return m_abs;
+}
+void neutron::addAbs(std::string a_mat, double a_en)
+{
+  std::pair<std::string,double> temp={a_mat,a_en};
+  m_abs.push_back(temp);
+}
 state::state()
 {
   // nothing to do here

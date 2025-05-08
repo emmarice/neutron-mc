@@ -362,27 +362,29 @@ tallies::tallies(state a_state,materialManager* a_mats,int a_fisnum,int a_fisNor
             m_pathEst+=path.second*cxP*nuBar[matP]*wieght;//*nu.getWeight();
           }
         }
-    std::string mat=nu.getMat();
-    if(mat!="void")
+    for(std::pair<std::string,double> col: nu.getCols())
     {
-      if (crossX[mat].find("fis") == crossX[mat].end())
-      {}
+      std::string matP=col.first;
+      if (crossX[matP].find("fis") == crossX[matP].end())
+        {}
       else
       {
-        double cxt=a_mats->getCXTot(mat,nu.getE());
-        double cxf=a_mats->getCX(mat,"fis",nu.getE());
-        double cxa=a_mats->getCX(mat,"abs",nu.getE());
-        double cxTot=cxt*6.022E9*matDens[mat];
-        double cxFis=cxf*6.022E9*matDens[mat];
-        double cxAbs=cxa*6.022E9*matDens[mat];
-        if(nu.getCol())
-        {
-          m_colEst+=cxFis/cxTot*nuBar[mat]*wieght; //*nu.getWeight();
-        }
-        if(death==1||death==2)
-        {
-          m_absEst+=nuBar[mat]*cxFis/(cxFis+cxAbs)*wieght;//*nu.getWeight();
-        }
+        double en=col.second;
+        m_colEst+=wieght*nuBar[matP]*a_mats->getCX(matP,"fis",en)/(a_mats->getCX(matP,"tot",en));
+      }
+    }
+    for(std::pair<std::string,double> abs: nu.getAbs())
+    {
+      std::string matP=abs.first;
+      double en=abs.second;
+      if (crossX[matP].find("fis") == crossX[matP].end())
+        {}
+      else
+      {
+        // std::cout<<a_mats->getCX(matP,"fis",en)<<std::endl;
+        // std::cout<<a_mats->getCX(matP,"fis",en)+a_mats->getCX(matP,"abs",en)<<std::endl;
+        m_absEst+=wieght*nuBar[matP]*a_mats->getCX(matP,"fis",en)/(a_mats->getCX(matP,"fis",en)+a_mats->getCX(matP,"abs",en));
+        // std::cout<<m_colEst<<std::endl;
       }
     }
   }

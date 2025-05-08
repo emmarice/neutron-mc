@@ -191,6 +191,7 @@ double MCstats::getEntropy(){
   double entropy=0.0;
   for (int i = 0; i<m_normSites.size(); i++){
     if (m_normSites[i] >0.0){
+      // std::cout<<"here"<<std::endl;
       entropy += -1*m_normSites[i]*std::log(m_normSites[i]);
     }
   }
@@ -221,7 +222,7 @@ std::pair<double, double> MCstats::getStats(std::vector<double> a_vec)
   {
     var+=std::pow(val-mu,2);
   }
-  var=std::pow(var/(n-1),1/2);
+  var=std::pow(var/(n-1),0.5);
   std::pair<double, double> outp = {mu,var};
   return outp;
 }
