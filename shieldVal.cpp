@@ -44,10 +44,10 @@ int main(int argc, char** argv)
   mat->addMaterial("fe",{{"abs","../neutron-mc/crossSecs/ironAbs.csv"},{"tot","../neutron-mc/crossSecs/ironAbs.csv"}});
   // mat->addMaterial("pu",{{"fis","../neutron-mc/crossSecs/plutoniumFis.csv"},{"abs","../neutron-mc/crossSecs/plutoniumAbs.csv"},{"tot","../neutron-mc/crossSecs/plutoniumTot.csv"}});
   // mat->addMaterial("c",{{"abs","../neutron-mc/crossSecs/carbonAbs.csv"},{"tot","../neutron-mc/crossSecs/carbonTot.csv"}});
-  mat->addNu("pu",2.8836);
-  mat->addDensity("pu",19.86,239);
+  // mat->addNu("pu",2.8836);
+  // mat->addDensity("pu",19.86,239);
   mat->addDensity("fe",7.874,56);
-  mat->addDensity("c",2.266,12); //graphite
+  // mat->addDensity("c",2.266,12); //graphite
 
   // end material initalization
 
@@ -59,9 +59,9 @@ int main(int argc, char** argv)
   MCstats * fs = new MCstats(xdim,ydim,grids);
   // begin state intialization
   state curState;
-  int kone=999999999;
-  std::vector<double> keffCon;
-  std::vector<double> EntCon;
+  // int kone=999999999;
+  // std::vector<double> keffCon;
+  // std::vector<double> EntCon;
   for(int i; i<numpart ; i++)
   {
     neutron nuet = neutron(1000,0,
@@ -73,11 +73,11 @@ int main(int argc, char** argv)
     // std::cout << "Set neutron fission " <<i<<" successfully" << std::endl;    
     curState.addNeutron(nuet);
   }
-  int fisNum;
-  int oldFis;
-  double entNum;
-  bool kcon=false;
-  int ksize;
+  // int fisNum;
+  // int oldFis;
+  // double entNum;
+  // bool kcon=false;
+  // int ksize;
   reducedState tallied = reducedState();
   stepper stepping = stepper();
 
@@ -92,7 +92,7 @@ int main(int argc, char** argv)
     state curState = state(stepped);
     if(j>burn)
     {
-      tallies tally = tallies(curState, mat,fisNum,numpart);
+      tallies tally = tallies(curState, mat,100,numpart);
       tallied.addReduced(tally);
       tally.~tallies();
       // std::cout<<double(fisNum)/oldFis<<std::endl;
