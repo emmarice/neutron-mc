@@ -11,20 +11,31 @@ MCstats::MCstats()
 */
 void MCstats::setDims(double a_x, double a_y, int grains)
 {
-  m_row = (int)a_x*grains;
-  m_col = (int)a_y*grains;
+  m_row = int (a_x*grains);
+  m_col = int (a_y*grains);
   m_grains = grains;
 }
 
 MCstats::MCstats(double a_x, double a_y, int grains=1)
 {
-    m_row = (int)a_x*grains;
-    m_col = (int)a_y*grains;
-    std::cout << "max Y is: " <<a_y << std::endl;
-    std::cout << "max collumn is: " <<m_col << std::endl;
+  int addx=0;
+  int addy=0;
+  if(int(a_x*grains)<a_x*grains)
+  {
+    addx=1;
+  }
+  if(int(a_y*grains)<a_y*grains)
+  {
+    addy=1;
+  }
+    m_row = int (a_x*grains)+addx;
+    m_col = int (a_y*grains)+addy;
+    // std::cout << "max Y is: " <<a_y << std::endl;
+    // std::cout << "max row is: " <<m_row << std::endl;
     m_grains = grains;
     std::cout<< "Number of cells per cm is: "<< m_grains <<std::endl;
     m_fission_sites=allocate(m_row,m_col);
+    // std::cout << "Made it through allocator"<< std::endl;
 }
 
 void MCstats::clear()
@@ -51,12 +62,11 @@ double ** MCstats::allocate(int rows, int cols)
 {
     int r =  rows;
     int c = cols;
-
     double ** new_sites=  new double*[rows];
     for (int row =0; row<r; row++){
       new_sites[row]= new double[cols];
       // Have to set cols*4 since each double is 4 bytes
-      memset(new_sites[row],0,cols*4);
+      memset(new_sites[row],0,cols*8);
     }
     return new_sites;
 }
@@ -75,8 +85,8 @@ double * MCstats::getRow(int row)
 // This function adds a new fission site wherever the neutron fissions
 void MCstats::setFissionSite(neutron a_neutron)
 {
-  int xloc = (int)a_neutron.getPos().first*m_grains;
-  int yloc = (int)a_neutron.getPos().second*m_grains;
+  int xloc = int(a_neutron.getPos().first*m_grains);
+  int yloc = int(a_neutron.getPos().second*m_grains);
   if (yloc > m_col)
   {
     std::cout <<" ERROR: The value of max Y is " <<m_col <<std::endl;
@@ -90,8 +100,8 @@ void MCstats::setFissionSite(neutron a_neutron)
 void MCstats::setFissionSite(neutron a_neutron, int a_n)
 {
   int n = a_n;
-  int xloc = (int)m_grains*a_neutron.getPos().first;
-  int yloc = (int)m_grains*a_neutron.getPos().second;
+  int xloc = int(m_grains*a_neutron.getPos().first);
+  int yloc = int(m_grains*a_neutron.getPos().second);
   if (yloc > m_col){
     std::cerr <<" ERROR: The column at index " <<yloc<< " is out of bounds"<<std::endl;
   } else {

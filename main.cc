@@ -19,10 +19,10 @@
 */
 int main(int argc, char** argv)
 {
-  if(argc!=3)
+  if(argc!=5)
   {
     std::cout<<"invalid arg count"<<std::endl;
-    std::cout<<"correct use should be ./main {num particles} {grid per cm^2}"<<std::endl;
+    std::cout<<"correct use should be ./main {num particles} {grid per cm^2} {geo file} {baseOutName}"<<std::endl;
     return 1;
   }
   double epk=0.0005;
@@ -30,12 +30,12 @@ int main(int argc, char** argv)
   int active = 105;
   // begin material intialization
   materialManager* mat = new materialManager();
-  // randomGen* randy = new randomGen();
-  randomGen* randy = new randomGen(15681);
+  randomGen* randy = new randomGen();
+  // randomGen* randy = new randomGen(15681);
 
   // begin geometry pu/fe only
   // std::pair<double,double> dims = mat->addShapeFromFile("../neutron-mc/geos/twoCubes.txt");
-   std::pair<double,double> dims = mat->addShapeFromFile("../neutron-mc/geos/jezebelsquircle.txt");
+   std::pair<double,double> dims = mat->addShapeFromFile(argv[3]);
   // std::pair<double,double> dims = mat->addShapeFromFile("../neutron-mc/geos/incased.txt");
   // put fe and c
   // std::pair<double,double> dims = mat->addShapeFromFile("../neutron-mc/geos/checkers.txt");
@@ -43,11 +43,11 @@ int main(int argc, char** argv)
   // add cx data
   mat->addMaterial("fe",{{"abs","../neutron-mc/crossSecs/ironAbs.csv"},{"tot","../neutron-mc/crossSecs/ironTot.csv"}});
   mat->addMaterial("pu",{{"fis","../neutron-mc/crossSecs/plutoniumFis.csv"},{"abs","../neutron-mc/crossSecs/plutoniumAbs.csv"},{"tot","../neutron-mc/crossSecs/plutoniumTot.csv"}});
-  // mat->addMaterial("c",{{"abs","../neutron-mc/crossSecs/carbonAbs.csv"},{"tot","../neutron-mc/crossSecs/carbonTot.csv"}});
+  mat->addMaterial("c",{{"abs","../neutron-mc/crossSecs/carbonAbs.csv"},{"tot","../neutron-mc/crossSecs/carbonTot.csv"}});
   mat->addNu("pu",2.8836);
   mat->addDensity("pu",19.86,239);
   mat->addDensity("fe",7.874,56);
-  // mat->addDensity("c",2.266,12); //graphite
+  mat->addDensity("c",2.266,12); //graphite
 
   // end material initalization
 
@@ -67,7 +67,10 @@ int main(int argc, char** argv)
     neutron nuet = neutron(fs->sampleEnergy(randy),xdim*randy->getNormRand(),
                           ydim*randy->getNormRand(),
                           4*std::acos(0.0)*randy->getNormRand());
+    // std::cout << "Made neutron " <<i<<" successfully" << std::endl;
+    // std::cout << nuet.getPos().first  <<" : "<< nuet.getPos().second<< std::endl;
     fs->setFissionSite(nuet,1);
+    // std::cout << "Set neutron fission " <<i<<" successfully" << std::endl;    
     curState.addNeutron(nuet);
   }
   int fisNum;
@@ -94,7 +97,7 @@ int main(int argc, char** argv)
       tallied.addReduced(tally);
       tally.~tallies();
       // std::cout<<double(fisNum)/oldFis<<std::endl;
-      tallied.addMC(double(fisNum)/oldFis,entNum);
+      tallied.addMC(double(fisNum)/numpart,entNum);
       if(j%5==0)
       {
         ksHist=tallied.getK();
@@ -107,7 +110,7 @@ int main(int argc, char** argv)
             kone=j-burn;
             std::cout<<"k has converged at cycle burn+"<<j-burn<<std::endl;
           }
-          keffCon.push_back(double(fisNum)/oldFis);
+          keffCon.push_back(double(fisNum)/numpart);
           EntCon.push_back(entNum);
         }
       }
@@ -181,8 +184,8 @@ int main(int argc, char** argv)
     std::pair<double, double> absstat=fs->getStats(absEstCon);
     std::pair<double, double> colstat=fs->getStats(colEstCon);
   // end loop and output values
-
-    std::ofstream outFile("chekerMain.txt");
+    std::string baseName=argv[4];
+    std::ofstream outFile(baseName+"Main.txt");
     outFile<<std::setw(80);
     outFile<<std::setfill(' ');
     outFile<<"Main out Put\n";
@@ -192,17 +195,17 @@ int main(int argc, char** argv)
     <<pathstat.second<<" "<<absstat.first<<" "<<absstat.second<<" "<<colstat.first<<" "<<colstat.second<<" ";
     outFile.close();
     std::vector<double> entHist = tallied.getEnt();
-    std::ofstream plotFile("checkerData.dat");
+    std::ofstream plotFile(baseName+"Data.dat");
     plotFile<<std::setw(80);
     plotFile<<std::setfill(' ');
     plotFile<<"cycle "<<"k "<<"Ent "<<"path "<<"abs "<<"col "<<"\n";
-    for(int i=0 ; i<pathEst.size();i++)
+    for(int i=0 ; i<pathEst.size()-3;i++)
     {
       plotFile<<" "<<i<<" "<<ksHist[i]<<" "<<entHist[i]<<" "
       <<pathEst[i]<<" "<<absEst[i]<<" "<<colEst[i]<<"\n";
     }
     plotFile.close();
-    fs->saveFissionSites("checkerFis.dat");
+    fs->saveFissionSites(baseName+"FisMat.dat");
 
   return 0;
 }

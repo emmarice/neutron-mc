@@ -86,22 +86,22 @@ std::pair<double,double> materialManager::findBound(neutron a_neutron, double a_
   double xintHigh=(newx-oldx)/(newy-oldy)*(yhb-oldy)+oldx;
   if(yintLow>ylb && yintLow<yhb)
   {
-    // left side
+    // std::cout<<"left side"<<std::endl;
     return {xlb+1e-8,yintLow};
   }
   if(yintHigh>ylb && yintHigh<yhb)
   {
-    // right side
+    // std::cout<<" right side"<<std::endl;
     return {xhb-1e-8,yintHigh};
   }
   if(xintLow>xlb && xintLow<xhb)
   {
-    // bottom
-    return {xintLow,ylb-1e-8};
+    // std::cout<<"bottom"<<std::endl;
+    return {xintLow,ylb+1e-8};
   }
   if(xintHigh>xlb && xintHigh<xhb)
   {
-    // top
+    // std::cout<<"top"<<std::endl;
     return {xintHigh+1e-8,yhb};
   }
   else
@@ -390,10 +390,10 @@ tallies::tallies(state a_state,materialManager* a_mats,int a_fisnum,int a_fisNor
     }
   }
   m_avEnergy=en/alive;
-  m_avEscape=escp/m_num;
-  m_avFis=fis/m_num;
-  m_avCap=cap/m_num;
-  m_avSurvive=alive/m_num;
+  m_avEscape=escp/double(m_num);
+  m_avFis=fis/double(m_num);
+  m_avCap=cap/double(m_num);
+  m_avSurvive=alive/double(m_num);
 }
 double tallies::getAvEn()
 {

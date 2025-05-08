@@ -28,6 +28,9 @@ file(MAKE_DIRECTORY ${PROJECT_BINARY_DIR}/linkdef)
 add_executable(main.exe 
                main.cc
                )
+add_executable(shield.exe 
+               shieldVal.cpp
+               )
 set(LINKDEF ${PROJECT_BINARY_DIR}/linkdef/LinkDef.h)
 set(LD_HEADER
 "#ifdef __CINT__

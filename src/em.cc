@@ -50,6 +50,7 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCs
         {
           m_particles[i].stepNewPos(distance);
           mtype="void";
+          m_particles[i].setMat(mtype);
         }
         if (mtype != newmtype)
         {
@@ -59,8 +60,9 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCs
           std::pair<double,double> newP = m_particles[i].getPos();
           double forceD = std::pow(std::pow(oldP.first-newP.first,2)+std::pow(oldP.second-newP.second,2),0.5);
           m_particles[i].addStep(mtype,forceD); //needed to track each step for estimator 
+
           // update material
-          mtype = mat->matFinder(m_particles[i].getPos());
+          // mtype = mat->matFinder(m_particles[i].getPos());
         }
         else
         {
@@ -76,7 +78,6 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCs
         }  
         else if(mtype==newmtype) // some type of collision will happen
         {
-          {
             m_particles[i].addCol(mtype,m_particles[i].getE());
             // sample reaction type
             std::string rx = mat->getReactionType(rgen->getNormRand(), mtype, m_particles[i].getE());
@@ -108,7 +109,6 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCs
             {
               std::cout << "the reaction type isn't matching abs, scatter, or fission. weird!" << std::endl;
             }
-          }
         } // end collisions   
       } // end while alive
     } // end for each neutron
