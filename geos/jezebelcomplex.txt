@@ -1,0 +1,5 @@
+jezcomplexlowest,pu,3.831,0,8.939,1.277
+jezcomplexlower,pu,1.277,1.277,11.493,3.831
+jezcomplexmid,pu,0,3.831,12.77,8.939
+jezcomplexhigher,pu,1.277,8.939,11.493,11.493
+jezcomplexhighest,pu,3.831,11.493,8.939,12.77

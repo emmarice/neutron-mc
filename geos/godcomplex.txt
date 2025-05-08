@@ -1,0 +1,5 @@
+godcomplexlowest,u,5.2446,0,12.2374,1.7482
+godcomplexlower,u,1.7482,1.7482,15.7338,5.2446
+godcomplexmid,u,0,5.2446,17.482,12.2374
+godcomplexhigher,u,1.7482,12.2374,15.7338,15.7338
+godcomplexhighest,u,5.2446,15.7338,12.2374,17.482
