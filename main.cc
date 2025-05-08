@@ -44,7 +44,9 @@ int main(int argc, char** argv)
   mat->addMaterial("fe",{{"abs","../neutron-mc/crossSecs/ironAbs.csv"},{"tot","../neutron-mc/crossSecs/ironTot.csv"}});
   mat->addMaterial("pu",{{"fis","../neutron-mc/crossSecs/plutoniumFis.csv"},{"abs","../neutron-mc/crossSecs/plutoniumAbs.csv"},{"tot","../neutron-mc/crossSecs/plutoniumTot.csv"}});
   mat->addMaterial("c",{{"abs","../neutron-mc/crossSecs/carbonAbs.csv"},{"tot","../neutron-mc/crossSecs/carbonTot.csv"}});
+  mat->addMaterial("u",{{"fis","../neutron-mc/crossSecs/uranFis.csv"},{"abs","../neutron-mc/crossSecs/uranAbs.csv"},{"tot","../neutron-mc/crossSecs/uranTot.csv"}});
   mat->addNu("pu",2.8836);
+  mat->addDensity("u",19.050,234);
   mat->addDensity("pu",19.86,239);
   mat->addDensity("fe",7.874,56);
   mat->addDensity("c",2.266,12); //graphite
