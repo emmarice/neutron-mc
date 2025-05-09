@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+title: neutron-mc
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Emma
+    family-names: Rice
+    email: emmarice@berkeley.edu
+    affiliation: UC Berkeley
+  - given-names: Keenan
+    family-names: Myers
+    affiliation: UC Berkeley
+  - given-names: Joe
+    family-names: Henderson
+    affiliation: UC Berkeley
+repository-code: 'https://github.com/emmarice/neutron-mc'
