@@ -27,7 +27,7 @@ int main(int argc, char** argv)
   }
   double epk=0.0005;
   int burn = 50;
-  int active = 105;
+  int active = 50;
   // begin material intialization
   materialManager* mat = new materialManager();
   randomGen* randy = new randomGen();
