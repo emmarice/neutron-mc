@@ -46,7 +46,7 @@ void MCstats::clear()
   for (int row =0; row<m_row; row++)
   {
   // Have to set cols*4 since each double is 4 bytes
-    memset(m_fission_sites[row],0,m_col*4);
+    memset(m_fission_sites[row],0,m_col*8);
   }
 }
 
@@ -175,6 +175,7 @@ state MCstats::nextState(int a_numParticles,randomGen * rgen){
   normalizeSites();
   for (int i = 0; i<a_numParticles; i++)
   {
+    runningTot = 0.0;
     double rando = rgen->getNormRand();
     for (int j = 0; j<m_normSites.size(); j++)
     {

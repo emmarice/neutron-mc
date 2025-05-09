@@ -44,6 +44,9 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCs
         m_particles[i].setMat(mtype);
         double distance = mat->getDist(mtype, m_particles[i].getE(),rgen->getNormRand());
         std::pair<double,double> newpos = m_particles[i].getSteppedPos(distance);
+        
+        // std::cout<<m_particles[i].getPos().first<<"   "<<m_particles[i].getPos().second<<std::endl;
+        // std::cout<<newpos.first<<"   "<<newpos.second<<std::endl;
         std::string newmtype = mat->matFinder(newpos);
         // if boundary is being crossed:
         if(newmtype == "void")
@@ -96,7 +99,10 @@ std::vector<neutron> stepper::step( materialManager * mat, randomGen * rgen, MCs
               m_particles[i].killN(2);
               m_particles[i].addAbs(mtype,m_particles[i].getE());
               // sample number of neutrons produced & save for next gen
+              
+              // std::cout<<m_particles[i].getPos().first<<"   "<<m_particles[i].getPos().second<<std::endl;
               fish->setFissionSite(m_particles[i], mat->getFisInfo(mtype, rgen->getNormRand()));
+              // std::cout<<m_particles[i].getPos().first<<"   "<<m_particles[i].getPos().second<<std::endl;
             }
             // if scattered:
             else if (rx == "scat")

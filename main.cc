@@ -75,6 +75,7 @@ int main(int argc, char** argv)
     // std::cout << "Set neutron fission " <<i<<" successfully" << std::endl;    
     curState.addNeutron(nuet);
   }
+  // fs->saveFissionSites("evenHope.txt");
   int fisNum;
   int oldFis;
   double entNum;
@@ -151,9 +152,9 @@ int main(int argc, char** argv)
         oldvalA=tal.getAbsEst();
         oldvalC=tal.getColEst();
         skip=false;
-        std::cout<<oldvalP<<std::endl;
-        std::cout<<oldvalA<<std::endl;
-        std::cout<<oldvalC<<std::endl;
+        // std::cout<<oldvalP<<std::endl;
+        // std::cout<<oldvalA<<std::endl;
+        // std::cout<<oldvalC<<std::endl;
       }
       else
       {

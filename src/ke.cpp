@@ -102,7 +102,8 @@ std::pair<double,double> materialManager::findBound(neutron a_neutron, double a_
   if(xintHigh>xlb && xintHigh<xhb)
   {
     // std::cout<<"top"<<std::endl;
-    return {xintHigh+1e-8,yhb};
+    //return {xintHigh+1e-8,yhb};
+    return {xintHigh,yhb-1e-8};
   }
   else
   {

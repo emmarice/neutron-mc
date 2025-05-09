@@ -1,3 +1,0 @@
-escape  std escape
-0.995197   0.000224067
-analytical:   0.995196
