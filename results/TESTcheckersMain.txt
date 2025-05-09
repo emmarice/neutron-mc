@@ -1,0 +1,3 @@
+                                                                   Main out Put
+k mean k std Entropy mean Entropy std k (path) mean k (path) std k (absorb) mean k (absorb) std k (colide) mean k (colide) std
+0.495078 0.00843902 6.36384 0.0171071 1.0146 0.186521 1.00007 0.0234543 1.00033 0.024492 
